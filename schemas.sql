@@ -1,11 +1,83 @@
+CREATE TABLE IF NOT EXISTS Users (
+    u_id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    u_password VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Household (
+    h_id SERIAL PRIMARY KEY,
+    h_name VARCHAR(100) NOT NULL,
+    h_password VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS member_of (
+    u_id INTEGER NOT NULL,
+    h_id INTEGER NOT NULL,
+    PRIMARY KEY (u_id, h_id),
+    FOREIGN KEY (u_id) REFERENCES Users(u_id),
+    FOREIGN KEY (h_id) REFERENCES Household(h_id)
+);
+
 CREATE TABLE IF NOT EXISTS Recipes (
     r_id SERIAL PRIMARY KEY,
-    name VARCHAR(150) NOT NULL,
+    r_name VARCHAR(150) NOT NULL,
+    instructions VARCHAR(5000) NOT NULL,
+    description VARCHAR(3000),
+    cooking_time INTEGER,
+    writer_id INTEGER NOT NULL,
+    FOREIGN KEY (writer_id) REFERENCES Users(u_id) ON DELETE NO ACTION
+);
 
-)
+
+CREATE TABLE IF NOT EXISTS Tags (
+    t_id SERIAL PRIMARY KEY,
+    tag_name VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Recipe_Tags (
+    r_id INTEGER NOT NULL,
+    t_id INTEGER NOT NULL,
+    PRIMARY KEY (r_id, t_id),
+    FOREIGN KEY (r_id) REFERENCES Recipes ON DELETE CASCADE,
+    FOREIGN KEY (t_id) REFERENCES Tags ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Reviews (
+    r_id INTEGER NOT NULL,
+    u_id INTEGER NOT NULL,
+    stars INTEGER CHECK (stars >= 1 AND stars <= 5),
+    comment VARCHAR(2000),
+    PRIMARY KEY (r_id, u_id),
+    FOREIGN KEY (r_id) REFERENCES Recipes ON DELETE CASCADE,
+    FOREIGN KEY (u_id) REFERENCES Users ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Ingredients(
+    i_id SERIAL PRIMARY KEY,
+    ingredient_name VARCHAR(100) UNIQUE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Recipe_Ingredients (
+    r_id INTEGER NOT NULL,
+    i_id INTEGER NOT NULL,
+    quantity DECIMAL(10, 2),
+    unit VARCHAR(50),
+    PRIMARY KEY (r_id, i_id),
+    FOREIGN KEY (r_id) REFERENCES Recipes ON DELETE CASCADE,
+    FOREIGN KEY (i_id) REFERENCES Ingredients ON DELETE CASCADE
+);
 
 
-CREATE TABLE Ingrediens ()
 
-CREATE TABLE Recipe_Ingredients ()
+CREATE TABLE IF NOT EXISTS Stock (
+    s_id SERIAL PRIMARY KEY,
+    h_id INTEGER NOT NULL,
+    i_id INTEGER NOT NULL,
+    quantity DECIMAL(10, 2),
+    unit VARCHAR(50),
+    expiry_date DATE,
+    FOREIGN KEY (h_id) REFERENCES Household ON DELETE CASCADE, 
+    FOREIGN KEY (i_id) REFERENCES Ingredients ON DELETE CASCADE
+);
 
