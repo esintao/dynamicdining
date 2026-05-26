@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 
 # Initialize your driver (adjust for Chrome/Firefox as needed)
 driver = webdriver.Chrome()
-driver.get("https://www.food.com/recipe/absolute-best-ever-lasagna-28768")
+driver.get("https://www.food.com/recipe/juniors-white-meat-chicken-salad-156275")
 
 # 1. Locate the main ingredient list container
 try:
