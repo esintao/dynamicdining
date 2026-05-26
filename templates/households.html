@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Select Household</h1>
+
+{% for household in households %}
+    <div class="card">
+        <h3>{{ household[1] }}</h3>
+        <a href="/select_household/{{ household[0] }}">Enter Household</a>
+    </div>
+{% endfor %}
+
+<a href="/join_household">Join or Create Household</a>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Stock</h1>
+
+<form action="/add_stock" method="POST">
+    <select name="i_id">
+        {% for ingredient in ingredients %}
+            <option value="{{ ingredient[0] }}">
+                {{ ingredient[1] }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <input type="number" step="0.01" name="quantity" placeholder="Quantity">
+    <input type="text" name="unit" placeholder="Unit">
+    <input type="date" name="expiry_date">
+
+    <button type="submit">Add Stock</button>
+</form>
+
+<table>
+    <tr>
+        <th>Ingredient</th>
+        <th>Quantity</th>
+        <th>Unit</th>
+        <th>Expiry</th>
+        <th>Delete</th>
+    </tr>
+
+    {% for item in stock_items %}
+    <tr>
+        <td>{{ item[1] }}</td>
+        <td>{{ item[2] }}</td>
+        <td>{{ item[3] }}</td>
+        <td>{{ item[4] }}</td>
+        <td>
+            <a href="/delete_stock/{{ item[0] }}">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
