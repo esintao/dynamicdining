@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS Recipe_Ingredients (
     ri_id SERIAL PRIMARY KEY,
     r_id INTEGER NOT NULL,
     i_id INTEGER NOT NULL,
-    quantity VARCHAR(10),
+    quantity VARCHAR(50),
     unit VARCHAR(50),
     PRIMARY KEY (r_id, i_id),
     FOREIGN KEY (r_id) REFERENCES Recipes ON DELETE CASCADE,
