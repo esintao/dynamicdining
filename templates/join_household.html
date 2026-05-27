@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Join Household</h1>
+
+<form action="/join_household" method="POST">
+    <input type="text" name="h_name" placeholder="Household Name" required>
+    <input type="password" name="h_password" placeholder="Password" required>
+
+    <button type="submit">Join Household</button>
+</form>
+
+<h1>Create Household</h1>
+
+<form action="/create_household" method="POST">
+    <input type="text" name="h_name" placeholder="Household Name" required>
+    <input type="password" name="h_password" placeholder="Password" required>
+
+    <button type="submit">Create Household</button>
+</form>
+{% endblock %}

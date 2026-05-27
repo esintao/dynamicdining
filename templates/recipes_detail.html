@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ recipe[0] }}</h1>
+
+<p>{{ recipe[1] }}</p>
+
+<p>
+    Cooking Time: {{ recipe[3] }} minutes
+</p>
+
+<h2>Instructions</h2>
+<p>{{ recipe[2] }}</p>
+
+<h2>Ingredients</h2>
+
+<ul>
+{% for ingredient in ingredients %}
+    <li>
+        {{ ingredient[0] }} -
+        {{ ingredient[1] }}
+        {{ ingredient[2] }}
+    </li>
+{% endfor %}
+</ul>
+
+<h2>Reviews</h2>
+
+{% for review in reviews %}
+<div class="card">
+    <h4>{{ review[0] }}</h4>
+    <p>{{ review[1] }}/5</p>
+    <p>{{ review[2] }}</p>
+</div>
+{% endfor %}
+
+<h2>Add Review</h2>
+
+<form action="/add_review/{{ r_id }}" method="POST">
+    <input type="number" min="1" max="5" name="stars">
+
+    <textarea name="comment"></textarea>
+
+    <button type="submit">Submit Review</button>
+</form>
+{% endblock %}
