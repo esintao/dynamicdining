@@ -5663,6 +5663,15 @@ r_id,i_id,amount,unit
 370299,311,,flour
 370299,184,,shredded
 370299,453,,avocado
+409247,12,1,cup
+409247,153,1,teaspoon
+409247,789,1⁄4,teaspoon
+409247,11,1,cup
+409247,476,3⁄4,teaspoon
+409247,134,1,teaspoon
+409247,1415,1,cup
+409247,2,3,large
+409247,833,1,pie
 248881,1416,410,g
 248881,75,1,garlic
 248881,1417,10,ml
@@ -6091,6 +6100,19 @@ r_id,i_id,amount,unit
 468604,75,1 -2,garlic
 468604,279,1,teaspoon
 468604,77,,salt
+259438,1480,1,6 1/2 ounce
+259438,434,3,large
+259438,220,4,tablespoons
+259438,72,2,tablespoons
+259438,276,1,bell
+259438,103,1,celery
+259438,1482,2,tablespoons
+259438,105,1 1⁄2,tablespoons
+259438,324,3⁄8,cup
+259438,77,,salt
+259438,132,,fresh
+259438,6,,tomatoes
+259438,498,,hard
 198922,244,1⁄2,cup
 198922,12,1⁄2,cup
 198922,16,1⁄2,cup
@@ -6764,6 +6786,17 @@ r_id,i_id,amount,unit
 474347,85,1,tablespoon
 474347,28,1,pinch
 173312,697,1 1⁄2,lbs
+173312,142,1,large
+173312,48,1,large
+173312,17,1⁄2,teaspoon
+173312,222,1⁄2,teaspoon
+173312,153,1⁄2,teaspoon
+173312,399,1⁄4,teaspoon
+173312,730,1,dash
+173312,16,1⁄2,cup
+173312,1576,1,9 inch
+173312,2,1,egg
+173312,98,1⁄4,teaspoon
 375863,1577,3,cups
 375863,12,3⁄4,cup
 375863,45,1⁄3,cup
@@ -6822,6 +6855,15 @@ r_id,i_id,amount,unit
 272402,148,1,cup
 427612,434,1 1⁄2,lbs
 427612,85,1,cup
+427612,32,1⁄2,teaspoon
+427612,17,1,teaspoon
+427612,140,1⁄4,teaspoon
+427612,83,1 1⁄2,cups
+427612,48,3,tablespoons
+427612,2,2,eggs
+427612,92,,sour
+427612,804,,chives
+427612,1582,,lingonberry
 90588,1583,1,lb
 90588,1372,1,2 ounce
 90588,1584,1,cup
@@ -7179,6 +7221,10 @@ r_id,i_id,amount,unit
 163923,333,1 1⁄2,tablespoons
 163923,213,2,large
 163923,17,1,pinch
+174848,213,8,egg
+174848,827,2 1⁄2,cups
+174848,376,3,300 ml
+174848,249,400,g
 174452,285,1,tablespoon
 174452,17,1⁄2,teaspoon
 174452,140,1⁄4,teaspoon
@@ -7206,6 +7252,11 @@ r_id,i_id,amount,unit
 73446,1109,2,cups
 73446,17,1⁄2,teaspoon
 73446,166,2,tablespoons
+73446,95,1,teaspoon
+73446,490,4,ice
+73446,103,1,stalk
+73446,496,1,raw
+73446,48,1,slice
 400209,91,1 -2,tablespoon
 400209,12,1,teaspoon
 400209,264,1 -2,tablespoon
@@ -7249,6 +7300,8 @@ r_id,i_id,amount,unit
 66981,1541,3⁄4,cup
 66981,1636,3⁄4,cup
 66981,45,1⁄2,cup
+66981,12,1⁄2,cup
+66981,59,2,tablespoons
 218852,536,1⁄3,cup
 218852,1082,3,tablespoons
 218852,1191,3,tablespoons
@@ -7425,6 +7478,15 @@ r_id,i_id,amount,unit
 93542,101,4,boneless
 93542,17,,salt
 93542,140,,pepper
+191114,1574,1⁄2,pineapple
+191114,1646,2,tablespoons
+191114,234,2,tablespoons
+191114,690,1,tablespoon
+191114,470,3,scallions
+191114,1647,1⁄4,teaspoon
+191114,468,1,teaspoon
+191114,17,3⁄4,teaspoon
+191114,730,1⁄4,teaspoon
 48373,12,1⁄4,cup
 48373,752,1⁄4,cup
 48373,4,1⁄4,cup
@@ -7477,6 +7539,10 @@ r_id,i_id,amount,unit
 166905,712,2,tablespoons
 166905,2,1,egg
 166905,145,1⁄4,cup
+71283,309,1⁄4,cup
+71283,345,4,lettuce
+71283,122,1⁄4,cup
+71283,35,2,tablespoons
 189631,891,1,slice
 189631,2,1,whole
 189631,453,1⁄4,avocado
@@ -7515,6 +7581,20 @@ r_id,i_id,amount,unit
 88536,508,4,boneless
 88536,1655,6,cups
 88536,87,2,oranges
+287957,3,2,tablespoons
+287957,48,2,large
+287957,381,2,green
+287957,119,4,medium
+287957,1074,1⁄2,medium
+287957,783,1,lb
+287957,75,4,garlic
+287957,16,8,cups
+287957,126,2,tablespoons
+287957,1656,2,vegetable
+287957,702,1⁄2,teaspoon
+287957,878,1,teaspoon
+287957,700,1,teaspoon
+287957,807,,salt
 28341,1657,3 -4,lbs
 28341,715,2,envelopes
 28341,667,3,cans
@@ -7624,6 +7704,30 @@ r_id,i_id,amount,unit
 368976,125,1⁄4,teaspoon
 368976,16,8,cups
 368976,17,2,teaspoons
+3520,30,3,cups
+3520,31,1,teaspoon
+3520,32,1⁄4,teaspoon
+3520,17,1,teaspoon
+3520,14,1,tablespoon
+3520,3,3⁄4,cup
+3520,2,3,eggs
+3520,12,2,cups
+3520,840,2,cups
+3520,22,1,cup
+3520,86,2,teaspoons
+159479,1668,4,beef
+159479,8,3 -4,tablespoons
+159479,339,1⁄4,lb
+159479,75,2,garlic
+159479,1669,1 1⁄2,cups
+159479,524,2,cups
+159479,126,1,tablespoon
+159479,468,1,sprig
+159479,1670,1⁄2,lb
+159479,119,8 -10,carrots
+159479,62,3,tablespoons
+159479,85,2,tablespoons
+159479,206,1⁄2,lb
 84966,1671,4,cups
 84966,544,4,cups
 84966,682,1,cup
@@ -7703,6 +7807,14 @@ r_id,i_id,amount,unit
 128965,145,1,cup
 199283,67,3⁄4,cup
 199283,325,1⁄2,cup
+199283,85,1 3⁄4,cups
+199283,12,1 3⁄4,cups
+199283,32,3,teaspoons
+199283,17,1,teaspoon
+199283,296,1⁄2,cup
+199283,2,7,eggs
+199283,86,1,teaspoon
+199283,1344,1⁄2,teaspoon
 287026,2,1,egg
 287026,1367,1,cup
 287026,1590,1⁄4,cup
@@ -7713,6 +7825,10 @@ r_id,i_id,amount,unit
 94562,1680,1 1⁄2,ounces
 94562,1681,2,teaspoons
 94562,299,1⁄2,teaspoon
+94562,35,1⁄2,teaspoon
+94562,1682,,whole
+94562,1232,,lettuce
+94562,6,,tomatoes
 385714,1683,1,3 1/2 ounce
 385714,1684,1,20 ounce
 385714,1685,1 3⁄4,cups
@@ -7982,6 +8098,11 @@ r_id,i_id,amount,unit
 40045,373,8,ounces
 40045,6,1,medium
 221021,1715,2,large
+221021,1378,1 1⁄4,cups
+221021,397,1,cup
+221021,220,1⁄3,cup
+221021,508,4,boneless
+221021,328,1,15 ounce
 180481,1716,1⁄4,lb
 180481,434,4,medium
 180481,1717,3,ounces
@@ -8101,6 +8222,9 @@ r_id,i_id,amount,unit
 320658,2,1,egg
 320658,762,1⁄2,cup
 320658,988,1⁄4,cup
+320658,1156,1⁄2,teaspoon
+320658,725,1 1⁄2,lbs
+320658,385,1 1⁄2,cups
 245503,891,2,slices
 245503,578,2,slices
 245503,1241,2,slices
@@ -8411,6 +8535,8 @@ r_id,i_id,amount,unit
 98353,448,2,cups
 98353,1323,1,4 ounce
 98353,17,1,teaspoon
+98353,43,1,lb
+98353,961,,jalapeno
 189023,3,1⁄2,cup
 189023,446,12,corn
 189023,1765,14,ounces
@@ -8549,10 +8675,24 @@ r_id,i_id,amount,unit
 456545,828,1 1⁄2,cups
 456545,1776,3,large
 226752,1777,1,cup
+226752,107,1⁄2,teaspoon
+226752,17,1⁄4,teaspoon
+226752,140,1⁄4,teaspoon
+226752,508,4,boneless
+226752,9,1⁄2,teaspoon
+226752,8,2,tablespoons
+226752,127,1,cup
+226752,1778,4,slices
 457547,16,10,cups
 457547,17,,salt
 457547,1437,4,lbs
 457547,339,5 -6,pieces
+457547,220,1,red
+457547,45,4,tablespoons
+457547,523,1⁄4,cup
+457547,34,2,tablespoons
+457547,269,1,cup
+457547,203,,fresh
 147265,188,2,chicken
 147265,198,1,ounce
 147265,2,1,egg
@@ -8571,6 +8711,9 @@ r_id,i_id,amount,unit
 58603,86,1,teaspoon
 58603,85,1,cup
 58603,32,1,teaspoon
+58603,17,1⁄4,teaspoon
+58603,337,1⁄2,cup
+58603,33,1,teaspoon
 470630,11,3,cups
 470630,1054,1,cup
 470630,12,2⁄3,cup
@@ -8637,6 +8780,9 @@ r_id,i_id,amount,unit
 139717,140,1⁄4,teaspoon
 140632,1782,1,ounce
 140632,1783,1⁄2,ounce
+140632,12,1⁄2,teaspoon
+140632,490,4 -5,ice
+140632,58,1 1⁄2,ounces
 108760,119,2 -3,large
 108760,1715,1,large
 108760,122,1,tablespoon
