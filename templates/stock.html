@@ -4,7 +4,8 @@
 <h1>Stock</h1>
 
 <form action="/add_stock" method="POST">
-    <select name="i_id">
+    <select name="i_id" required>
+        <option value="">Select an ingredient</option>
         {% for ingredient in ingredients %}
             <option value="{{ ingredient[0] }}">
                 {{ ingredient[1] }}

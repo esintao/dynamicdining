@@ -39,10 +39,13 @@ def stock_page():
 
 @stock_bp.route('/add_stock', methods=['POST'])
 def add_stock():
-    i_id = request.form['i_id']
-    quantity = request.form['quantity']
-    unit = request.form['unit']
-    expiry_date = request.form['expiry_date']
+    i_id = request.form.get('i_id')
+    quantity = request.form.get('quantity')
+    unit = request.form.get('unit')
+    expiry_date = request.form.get('expiry_date')
+    
+    if not i_id or not quantity or not unit:
+        return redirect(url_for('stock.stock_page'))
 
     conn = get_db_connection()
     cur = conn.cursor()
