@@ -1,0 +1,10 @@
+COPY Users(u_id, username, email, password) FROM '/users.csv' DELIMITER ',' CSV HEADER;
+COPY Households(h_id, h_name, h_password) FROM '/households.csv' DELIMITER ',' CSV HEADER;
+COPY member_of(u_id, h_id) FROM '/member_of.csv' DELIMITER ',' CSV HEADER;
+COPY Recipes(r_id, r_name, instructions, description, cooking_time, writer_id) FROM '/recipes.csv' DELIMITER ',' CSV HEADER;
+COPY Tags(t_id, tag_name) FROM '/tags.csv' DELIMITER ',' CSV HEADER;
+COPY Recipe_Tags(r_id, t_id) FROM '/recipe_tags.csv' DELIMITER ',' CSV HEADER;
+COPY Reviews(r_id, u_id, stars, comment) FROM '/reviews.csv' DELIMITER ',' CSV HEADER;
+COPY Ingredients(i_id, ingredient_name) FROM '/ingredients.csv' DELIMITER ',' CSV HEADER;
+COPY Recipe_Ingredients(r_id, i_id, quantity, unit) FROM '/recipe_ingredients.csv' DELIMITER ',' CSV HEADER;
+COPY Stock(s_id, h_id, i_id, quantity, unit) FROM '/stock.csv' DELIMITER ',' CSV HEADER;
