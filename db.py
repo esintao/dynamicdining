@@ -6,6 +6,6 @@ def get_db_connection():
         port=5432,
         database="recipe_app",
         user="postgres",
-        password=""
+        password="6452"
     )
     return conn
