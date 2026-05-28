@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <h1>Create Account</h1>
 
 <form action="{{ url_for('auth.register_user') }}" method="POST">
@@ -7,3 +10,6 @@
 
     <button type="submit">Register</button>
 </form>
+
+<a href="{{ url_for('auth.login_page') }}">Already have an account? Login here</a>
+{% endblock %}
