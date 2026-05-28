@@ -8,6 +8,7 @@ from routes.recipes import recipes_bp
 
 app = Flask(__name__)
 app.secret_key = "super_secret_key"
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(household_bp)
