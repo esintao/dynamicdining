@@ -4,9 +4,13 @@
 <div class="catalogue-container">
     <h1>Recipe Catalogue</h1>
 
-    <form method="GET" action="{{ url_for('recipes.recipes_page') }}" class="filter-form">
-        <div class="filter-group search-box">
-            <input type="text" name="search" value="{{ search_query }}" placeholder="Search recipes or descriptions...">
+    <div class="catalogue-container">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h1 style="margin: 0;">Recipe Catalogue</h1>
+            <a href="{{ url_for('recipes.add_recipe') }}" style="background-color: #2e7d32; color: white; text-decoration: none; padding: 10px 16px; border-radius: 4px; font-weight: bold; font-size: 0.95rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                ➕ Add Your Recipe
+            </a>
         </div>
 
         <div class="filter-group">
