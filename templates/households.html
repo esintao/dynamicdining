@@ -1,14 +1,70 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Select Household</h1>
+<div class="households-container">
+    <header class="page-header">
+        <h1>Select Workspace</h1>
+        <p class="subtitle">Choose a household to access your synchronized pantry stock and recipe ratings.</p>
+    </header>
 
-{% for household in households %}
-    <div class="card">
-        <h3>{{ household[1] }}</h3>
-        <a href="/select_household/{{ household[0] }}">Enter Household</a>
+    <div class="households-grid">
+        {% if households %}
+            {% for household in households %}
+            <div class="household-card">
+                <div class="card-avatar">🏠</div>
+                <div class="card-details">
+                    <h3 class="capitalize-text">{{ household[1] }}</h3>
+                    <p class="card-status">Active Kitchen Ecosystem</p>
+                </div>
+                <div class="card-actions">
+                    <a href="/select_household/{{ household[0] }}" class="btn-enter">Enter Household</a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-households">
+                <p>You aren't associated with any households yet.</p>
+            </div>
+        {% endif %}
     </div>
-{% endfor %}
 
-<a href="/join_household">Join or Create Household</a>
+    <div class="page-footer-actions">
+        <span class="muted-text">Need to link up with housemates or start a new kitchen?</span>
+        <a href="/join_household" class="btn-setup">🤝 Join or Create Household</a>
+    </div>
+</div>
+
+<style>
+    .households-container { max-width: 800px; margin: 50px auto; padding: 0 20px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #333; }
+    
+    .page-header { margin-bottom: 35px; text-align: center; }
+    .page-header h1 { font-size: 2.2rem; margin: 0 0 8px 0; color: #0f172a; font-weight: 700; }
+    .subtitle { font-size: 1rem; color: #64748b; margin: 0; }
+
+    .capitalize-text { text-transform: capitalize; }
+
+    /* Grid/List Layout */
+    .households-grid { display: flex; flex-direction: column; gap: 16px; margin-bottom: 40px; }
+    
+    /* Sleek Row Cards */
+    .household-card { background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px 25px; display: flex; align-items: center; gap: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.02); transition: transform 0.15s, border-color 0.15s; }
+    .household-card:hover { transform: translateY(-1px); border-color: #cbd5e1; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.04); }
+    
+    .card-avatar { font-size: 1.8rem; background: #f1f5f9; padding: 10px; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; }
+    
+    .card-details { flex-grow: 1; }
+    .card-details h3 { margin: 0 0 4px 0; font-size: 1.2rem; color: #1e293b; }
+    .card-status { margin: 0; font-size: 0.85rem; color: #2e7d32; font-weight: 600; }
+    
+    .btn-enter { text-decoration: none; background: #0066cc; color: white; padding: 10px 18px; border-radius: 6px; font-weight: bold; font-size: 0.9rem; display: inline-block; transition: background 0.15s; }
+    .btn-enter:hover { background: #0052a3; }
+
+    .empty-households { text-align: center; padding: 40px; background: #f8f9fa; border: 1px dashed #cbd5e1; border-radius: 8px; color: #64748b; font-style: italic; }
+
+    /* Footer Navigation Area */
+    .page-footer-actions { background: #f8f9fa; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; text-align: center; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+    .muted-text { font-size: 0.95rem; color: #64748b; }
+    .btn-setup { text-decoration: none; color: #1e293b; background: white; border: 1px solid #cbd5e1; padding: 10px 20px; border-radius: 6px; font-weight: 600; font-size: 0.95rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: background 0.15s; }
+    .btn-setup:hover { background: #f1f5f9; }
+</style>
 {% endblock %}
