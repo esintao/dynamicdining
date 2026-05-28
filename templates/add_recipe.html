@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-header">
+        <h1>Share Your Recipe</h1>
+        <a href="{{ url_for('recipes.recipes_page') }}" class="btn-back">← Back to Catalogue</a>
+    </div>
+
+    <form method="POST" action="{{ url_for('recipes.add_recipe') }}" class="recipe-form">
+        <div class="form-group">
+            <label for="r_name">Recipe Title *</label>
+            <input type="text" id="r_name" name="r_name" required placeholder="e.g., Grandma's Lasagna">
+        </div>
+
+        <div class="form-row">
+            <div class="form-group basis-half">
+                <label for="cooking_time">Cooking Time (minutes)</label>
+                <input type="number" id="cooking_time" name="cooking_time" min="1" placeholder="e.g., 45">
+            </div>
+            <div class="form-group basis-half">
+                <label for="tags">Tags (Comma separated)</label>
+                <input type="text" id="tags" name="tags" placeholder="e.g., dinner, pasta, Italian">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Short Description</label>
+            <textarea id="description" name="description" rows="3" placeholder="Briefly describe what makes this recipe special..."></textarea>
+        </div>
+
+        <div class="ingredients-section">
+            <h3>Ingredients</h3>
+            <div id="ingredients-container">
+                <div class="ingredient-row">
+                    <input type="text" name="ingredient_name[]" placeholder="Ingredient name (e.g., Flour)" required>
+                    <input type="text" name="quantity[]" placeholder="Qty (e.g., 200)">
+                    <input type="text" name="unit[]" placeholder="Unit (e.g., g, ml, tbsp)">
+                    <button type="button" class="btn-remove" onclick="removeRow(this)">✕</button>
+                </div>
+            </div>
+            <button type="button" id="btn-add-ingredient" class="btn-secondary">+ Add Ingredient</button>
+        </div>
+
+        <div class="form-group">
+            <label for="instructions">Preparation Instructions *</label>
+            <textarea id="instructions" name="instructions" rows="8" required placeholder="Step 1. Preheat oven to 200°C...&#10;Step 2. Mix ingredients..."></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">Publish Recipe</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    // JavaScript to dynamically append ingredient entry items
+    document.getElementById('btn-add-ingredient').addEventListener('click', function() {
+        const container = document.getElementById('ingredients-container');
+        const newRow = document.createElement('div');
+        newRow.className = 'ingredient-row';
+        newRow.innerHTML = `
+            <input type="text" name="ingredient_name[]" placeholder="Ingredient name" required>
+            <input type="text" name="quantity[]" placeholder="Qty">
+            <input type="text" name="unit[]" placeholder="Unit">
+            <button type="button" class="btn-remove" onclick="removeRow(this)">✕</button>
+        `;
+        container.appendChild(newRow);
+    });
+
+    function removeRow(button) {
+        const rows = document.querySelectorAll('.ingredient-row');
+        if(rows.length > 1) {
+            button.parentElement.remove();
+        } else {
+            alert("A recipe must have at least one ingredient!");
+        }
+    }
+</script>
+
+<style>
+    .form-container { max-width: 700px; margin: 40px auto; padding: 25px; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; font-family: sans-serif; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+    .form-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #f0f0f0; padding-bottom: 15px; }
+    .form-header h1 { margin: 0; font-size: 1.75rem; color: #222; }
+    .btn-back { text-decoration: none; color: #666; font-size: 0.95rem; }
+    .recipe-form { display: flex; flex-direction: column; gap: 20px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-row { display: flex; gap: 15px; }
+    .basis-half { flex: 1; }
+    label { font-weight: bold; font-size: 0.9rem; color: #444; }
+    input[type="text"], input[type="number"], textarea { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px; width: 100%; box-sizing: border-box; }
+    
+    .ingredients-section { background: #fdfdfd; border: 1px solid #eaeaea; padding: 15px; border-radius: 6px; }
+    .ingredients-section h3 { margin-top: 0; margin-bottom: 12px; font-size: 1.1rem; color: #333; }
+    .ingredient-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
+    .ingredient-row input[name="ingredient_name[]"] { flex: 2; }
+    .ingredient-row input[name="quantity[]"], .ingredient-row input[name="unit[]"] { flex: 1; }
+    
+    .btn-remove { background: #fee; color: #cc0000; border: 1px solid #fcc; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    .btn-secondary { background: #e8f0fe; color: #1a73e8; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.85rem; margin-top: 5px; }
+    .btn-submit { background: #2e7d32; color: white; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-size: 1.05rem; font-weight: bold; width: 100%; }
+    .btn-submit:hover { background: #235e26; }
+</style>
+{% endblock %}
