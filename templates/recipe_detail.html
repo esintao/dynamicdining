@@ -1,46 +1,169 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>{{ recipe[0] }}</h1>
+<div class="recipe-detail-container">
+    <a href="{{ url_for('recipes.recipes_page') }}" class="btn-back">← Back to Catalogue</a>
 
-<p>{{ recipe[1] }}</p>
+    <header class="recipe-header">
+        <h1 class="capitalize-text">{{ recipe[0] }}</h1>
+        <div class="recipe-meta">
+            <span class="meta-item">⏱️ <strong>Cooking Time:</strong> {% if recipe[3] %}{{ recipe[3] }} minutes{% else %}N/A{% endif %}</span>
+        </div>
+    </header>
 
-<p>
-    Cooking Time: {{ recipe[3] }} minutes
-</p>
+    {% if recipe[1] %}
+    <section class="recipe-description">
+        <p class="capitalize-text-first"><em>{{ recipe[1] }}</em></p>
+    </section>
+    {% endif %}
 
-<h2>Instructions</h2>
-<p>{{ recipe[2] }}</p>
+    <div class="recipe-layout">
+        <div class="layout-main">
+            <h2>Instructions</h2>
+            <div class="instructions-list">
+                {# Clean up the string representation of the list and split by individual items #}
+                {% set clean_instructions = recipe[2].replace("['", "").replace("']", "").replace('["', '').replace('"]', '').split("', '") %}
+                
+                {% for step in clean_instructions %}
+                    {% if step.strip() %}
+                    <label class="step-checkbox-container">
+                        <input type="checkbox">
+                        <span class="checkbox-custom"></span>
+                        <span class="step-text capitalize-text-first">{{ step.replace("\\'", "'").replace('\"', '"').strip() }}</span>
+                    </label>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
 
-<h2>Ingredients</h2>
+        <div class="layout-sidebar">
+            <div class="ingredients-card">
+                <h3>Ingredients</h3>
+                <ul class="ingredients-list">
+                {% for ingredient in ingredients %}
+                    <li>
+                        <span class="ingredient-name capitalize-text">{{ ingredient[0] }}</span>
+                        <span class="ingredient-amount">
+                            {% if ingredient[1] %}{{ ingredient[1] }}{% endif %} 
+                            {% if ingredient[2] %}{{ ingredient[2] }}{% endif %}
+                        </span>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
 
-<ul>
-{% for ingredient in ingredients %}
-    <li>
-        {{ ingredient[0] }} -
-        {{ ingredient[1] }}
-        {{ ingredient[2] }}
-    </li>
-{% endfor %}
-</ul>
+    <hr class="section-divider">
 
-<h2>Reviews</h2>
+    <section class="reviews-section">
+        <h2>Community Reviews</h2>
+        
+        <div class="reviews-grid">
+            {% if reviews %}
+                {% for review in reviews %}
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="review-author">👤 {{ review[0] }}</span>
+                        <span class="review-stars">
+                            {% for i in range(review[1]) %}⭐{% endfor %}
+                            <span class="score">({{ review[1] }}/5)</span>
+                        </span>
+                    </div>
+                    <p class="review-comment">"{{ review[2] }}"</p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="no-reviews">No reviews yet. Be the first to leave one below!</p>
+            {% endif %}
+        </div>
 
-{% for review in reviews %}
-<div class="card">
-    <h4>{{ review[0] }}</h4>
-    <p>{{ review[1] }}/5</p>
-    <p>{{ review[2] }}</p>
+        <div class="add-review-box">
+            <h3>Leave a Review</h3>
+            <form action="/add_review/{{ r_id }}" method="POST" class="review-form">
+                <div class="form-group">
+                    <label for="stars">Rating:</label>
+                    <select name="stars" id="stars" required>
+                        <option value="5">5 ⭐⭐⭐⭐⭐ (Excellent)</option>
+                        <option value="4">4 ⭐⭐⭐⭐ (Very Good)</option>
+                        <option value="3">3 ⭐⭐⭐ (Good)</option>
+                        <option value="2">2 ⭐⭐ (Fair)</option>
+                        <option value="1">1 ⭐ (Poor)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="comment">Your Thoughts:</label>
+                    <textarea name="comment" id="comment" rows="4" placeholder="What did you think of this recipe? Any modifications?" required></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit-review">Submit Review</button>
+            </form>
+        </div>
+    </section>
 </div>
-{% endfor %}
 
-<h2>Add Review</h2>
+<style>
+    .recipe-detail-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #333; }
+    .btn-back { display: inline-block; text-decoration: none; color: #0066cc; font-weight: 500; margin-bottom: 20px; }
+    .btn-back:hover { text-decoration: underline; }
+    
+    /* Text Auto-Capitalization Helpers */
+    .capitalize-text { text-transform: capitalize; }
+    .capitalize-text-first::first-letter { text-transform: uppercase; }
 
-<form action="/add_review/{{ r_id }}" method="POST">
-    <input type="number" min="1" max="5" name="stars">
+    .recipe-header { border-bottom: 2px solid #f0f0f0; padding-bottom: 15px; margin-bottom: 20px; }
+    .recipe-header h1 { font-size: 2.5rem; margin: 0 0 10px 0; color: #111; }
+    .recipe-meta { display: flex; gap: 20px; font-size: 1rem; color: #666; }
+    .recipe-description { font-size: 1.15rem; line-height: 1.6; color: #555; background: #fdfcf7; padding: 15px; border-left: 4px solid #e6b800; border-radius: 4px; margin-bottom: 30px; }
 
-    <textarea name="comment"></textarea>
+    /* Layout Columns */
+    .recipe-layout { display: flex; gap: 40px; flex-wrap: wrap; }
+    .layout-main { flex: 7; min-width: 300px; }
+    .layout-sidebar { flex: 3; min-width: 250px; }
 
-    <button type="submit">Submit Review</button>
-</form>
+    /* Checkable Instructions Styling */
+    .instructions-list { display: flex; flex-direction: column; gap: 16px; margin-top: 15px; }
+    .step-checkbox-container { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; padding: 12px; border-radius: 6px; border: 1px solid transparent; transition: background 0.2s; }
+    .step-checkbox-container:hover { background: #f7f9fa; }
+    .step-checkbox-container input { display: none; }
+    
+    /* Custom Checkbox Design */
+    .checkbox-custom { width: 20px; height: 20px; border: 2px solid #ccc; border-radius: 4px; display: inline-block; flex-shrink: 0; position: relative; margin-top: 2px; transition: all 0.2s; }
+    .step-checkbox-container input:checked + .checkbox-custom { background: #2e7d32; border-color: #2e7d32; }
+    .step-checkbox-container input:checked + .checkbox-custom::after { content: '✓'; position: absolute; color: white; font-size: 14px; font-weight: bold; top: -1px; left: 4px; }
+    .step-checkbox-container input:checked ~ .step-text { text-decoration: line-through; color: #999; }
+    .step-text { font-size: 1.05rem; line-height: 1.6; }
+
+    /* Ingredients Sidebar Card styling */
+    .ingredients-card { background: #f8f9fa; border: 1px solid #eaeaea; border-radius: 8px; padding: 20px; position: sticky; top: 20px; }
+    .ingredients-card h3 { margin-top: 0; border-bottom: 1px solid #ddd; padding-bottom: 8px; font-size: 1.25rem; }
+    .ingredients-list { list-style: none; padding: 0; margin: 0; }
+    .ingredients-list li { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #e0e0e0; font-size: 0.95rem; }
+    .ingredients-list li:last-child { border-bottom: none; }
+    .ingredient-name { font-weight: 500; }
+    .ingredient-amount { color: #666; font-weight: bold; }
+
+    .section-divider { margin: 50px 0 30px 0; border: 0; border-top: 1px solid #eee; }
+
+    /* Reviews Styling Layout */
+    .reviews-grid { display: flex; flex-direction: column; gap: 15px; margin-bottom: 35px; }
+    .review-card { background: white; border: 1px solid #e0e0e0; border-radius: 6px; padding: 15px 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+    .review-header { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 8px; font-weight: bold; }
+    .review-author { color: #444; }
+    .review-stars { color: #ffb300; }
+    .review-stars .score { color: #888; font-weight: normal; margin-left: 4px; }
+    .review-comment { margin: 0; font-size: 1rem; color: #555; line-height: 1.4; font-style: italic; }
+    .no-reviews { color: #777; font-style: italic; }
+
+    /* Form Fields Styling */
+    .add-review-box { background: #fafafa; border: 1px solid #ebeeef; padding: 25px; border-radius: 8px; }
+    .add-review-box h3 { margin-top: 0; margin-bottom: 15px; }
+    .review-form { display: flex; flex-direction: column; gap: 15px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-weight: bold; font-size: 0.9rem; }
+    .review-form select, .review-form textarea { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px; background: white; }
+    .btn-submit-review { background: #0066cc; color: white; border: none; padding: 12px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; align-self: flex-start; }
+    .btn-submit-review:hover { background: #0052a3; }
+</style>
 {% endblock %}

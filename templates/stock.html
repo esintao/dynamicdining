@@ -1,73 +1,150 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Stock</h1>
+<div class="stock-container">
+    <header class="stock-header">
+        <h1>Kitchen Inventory Manager</h1>
+        <p class="subtitle">Track items available in your household pantry.</p>
+    </header>
 
-<form action="/add_stock" method="POST">
-    <input list="ingredients-list" id="ingredient-search" placeholder="Type to search ingredient..." required
-        style="width: 100%; padding: 8px; margin-bottom: 10px;">
+    <div class="form-card">
+        <h3>➕ Log New Ingredient Item</h3>
+        <form action="/add_stock" method="POST" class="horizontal-stock-form">
+            <div class="form-row row-top">
+                <div class="form-group basis-wide">
+                    <label for="ingredient-search">Search Ingredient</label>
+                    <input list="ingredients-list" id="ingredient-search" placeholder="Type name to lookup item database..." required>
+                    <input type="hidden" name="i_id" id="hidden-i-id" required>
+                    
+                    <datalist id="ingredients-list">
+                        {% for ingredient in ingredients %}
+                        <option data-id="{{ ingredient[0] }}" value="{{ ingredient[1] }}">
+                        {% endfor %}
+                    </datalist>
+                </div>
+            </div>
 
-    <input type="hidden" name="i_id" id="hidden-i-id" required>
+            <div class="form-row row-bottom">
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" step="0.01" id="quantity" name="quantity" placeholder="e.g. 2.5" required>
+                </div>
 
-    <datalist id="ingredients-list">
-        {% for ingredient in ingredients %}
-        <option data-id="{{ ingredient[0] }}" value="{{ ingredient[1] }}">
-            {% endfor %}
-    </datalist>
+                <div class="form-group">
+                    <label for="unit">Unit</label>
+                    <input type="text" id="unit" name="unit" placeholder="e.g. kg, pcs, ml" required>
+                </div>
 
-    <input type="number" step="0.01" name="quantity" placeholder="Quantity" required>
-    <input type="text" name="unit" placeholder="Unit" required>
-    <input type="date" name="expiry_date">
+                <div class="form-group basis-medium">
+                    <label for="expiry_date">Expiration Date</label>
+                    <input type="date" id="expiry_date" name="expiry_date">
+                </div>
 
-    <button type="submit">Add Stock</button>
-</form>
+                <button type="submit" class="btn-submit-stock">Add to Stock</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="table-card">
+        <h3>📦 Current Pantry Inventory</h3>
+        <div class="table-responsive">
+            <table id="stock-table" class="modern-stock-table">
+                <thead>
+                    <tr>
+                        <th class="sortable" onclick="sortTable(0, 'text')">Ingredient Name <span class="sort-icon">↕️</span></th>
+                        <th>Quantity</th>
+                        <th>Unit</th>
+                        <th class="sortable" onclick="sortTable(3, 'date')">Expiry Date <span class="sort-icon">↕️</span></th>
+                        <th style="text-align: center;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if stock_items %}
+                        {% for item in stock_items %}
+                        <tr>
+                            <td class="capitalize-text font-medium">{{ item[1] }}</td>
+                            <td class="numeric-style">{{ item[2] }}</td>
+                            <td><span class="unit-badge">{{ item[3] }}</span></td>
+                            <td>
+                                <span class="date-display">
+                                    {{ item[4] if item[4] else 'N/A' }}
+                                </span>
+                            </td>
+                            <td style="text-align: center;">
+                                <a href="/delete_stock/{{ item[0] }}" class="btn-delete" onclick="return confirm('Remove item from stock?');">🗑️ Remove</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="empty-state">No items tracked inside current stock.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 <style>
-    th.sortable {
-        cursor: pointer;
-        user-select: none;
-    }
+    .stock-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #333; }
+    .stock-header { margin-bottom: 30px; }
+    .stock-header h1 { font-size: 2.2rem; margin: 0 0 6px 0; color: #111; }
+    .subtitle { color: #666; margin: 0; font-size: 1rem; }
 
-    th.sortable:hover {
-        background-color: #ddd;
-    }
+    .capitalize-text { text-transform: capitalize; }
+    .font-medium { font-weight: 500; }
+
+    /* Styled Form Card Box */
+    .form-card { background: #f8f9fa; border: 1px solid #eef0f2; border-radius: 8px; padding: 20px 25px; margin-bottom: 30px; }
+    .form-card h3 { margin-top: 0; margin-bottom: 15px; font-size: 1.1rem; color: #444; }
+    
+    .horizontal-stock-form { display: flex; flex-direction: column; gap: 15px; }
+    .form-row { display: flex; gap: 15px; width: 100%; flex-wrap: wrap; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 120px; }
+    .basis-wide { flex: 2; }
+    .basis-medium { flex: 1.5; }
+    
+    .form-group label { font-size: 0.85rem; font-weight: bold; color: #555; }
+    .horizontal-stock-form input { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; background: white; box-sizing: border-box; width: 100%; }
+    .row-bottom { align-items: flex-end; }
+    
+    .btn-submit-stock { background: #2e7d32; color: white; border: none; padding: 11px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; white-space: nowrap; height: 38px; }
+    .btn-submit-stock:hover { background: #235e26; }
+
+    /* Interactive Table Formatting */
+    .table-card { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.01); }
+    .table-card h3 { margin-top: 0; margin-bottom: 20px; font-size: 1.25rem; }
+    .table-responsive { overflow-x: auto; }
+
+    .modern-stock-table { width: 100%; border-collapse: collapse; text-align: left; }
+    .modern-stock-table th { background: #f8f9fa; padding: 12px 15px; font-size: 0.88rem; color: #555; border-bottom: 2px solid #eaeaea; }
+    
+    /* Sortable Header Behaviors */
+    th.sortable { cursor: pointer; user-select: none; }
+    th.sortable:hover { background-color: #f1f3f5; color: #000; }
+    .sort-icon { font-size: 0.75rem; margin-left: 4px; color: #999; }
+
+    .modern-stock-table td { padding: 12px 15px; border-bottom: 1px solid #eee; font-size: 0.95rem; vertical-align: middle; }
+    .modern-stock-table tr:hover { background: #fafafa; }
+    
+    .numeric-style { font-family: monospace; font-size: 1.05rem !important; font-weight: bold; }
+    .unit-badge { background: #e8f0fe; color: #1a73e8; padding: 3px 6px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
+    .date-display { color: #555; font-size: 0.9rem; }
+    
+    .btn-delete { text-decoration: none; color: #c92a2a; background: #fff5f5; padding: 6px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 500; border: 1px solid #ffe3e3; display: inline-block; }
+    .btn-delete:hover { background: #ffe3e3; color: #a61c1c; }
+    .empty-state { text-align: center; color: #888; font-style: italic; padding: 30px 0; }
 </style>
 
-<table id="stock-table">
-    <thead>
-        <tr>
-            <th class="sortable" onclick="sortTable(0, 'text')">Ingredient ↕️</th>
-            <th>Quantity</th>
-            <th>Unit</th>
-            <th class="sortable" onclick="sortTable(3, 'date')">Expiry ↕️</th>
-            <th>Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for item in stock_items %}
-        <tr>
-            <td>{{ item[1] }}</td>
-            <td>{{ item[2] }}</td>
-            <td>{{ item[3] }}</td>
-            <td>{{ item[4] if item[4] else 'N/A' }}</td>
-            <td>
-                <a href="/delete_stock/{{ item[0] }}" onclick="return confirm('Delete this item?');">Delete</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
 <script>
-    // --- 1. SEARCH FUNCTION MATCHING ID ---
+    // Keep your exact Javascript matching engine and sorting functionalities untouched below
     document.getElementById('ingredient-search').addEventListener('input', function (e) {
         var input = e.target;
         var list = input.getAttribute('list');
         var options = document.getElementById(list).options;
         var hiddenInput = document.getElementById('hidden-i-id');
-
         hiddenInput.value = "";
-
         for (var i = 0; i < options.length; i++) {
             if (options[i].value === input.value) {
                 hiddenInput.value = options[i].getAttribute('data-id');
@@ -76,36 +153,29 @@
         }
     });
 
-    // --- 2. MULTI-COLUMN TABLE SORTING FUNCTION ---
-    let sortDirections = [true, true, true, true]; // Tracks ascending/descending states
-
+    let sortDirections = [true, true, true, true];
     function sortTable(columnIndex, dataType) {
         const table = document.getElementById("stock-table");
         const tbody = table.querySelector("tbody");
         const rows = Array.from(tbody.querySelectorAll("tr"));
+        if(rows.length === 1 && rows[0].classList.contains('empty-state')) return;
 
-        // Reverse the sort direction tracker for this column
         sortDirections[columnIndex] = !sortDirections[columnIndex];
         const isAscending = sortDirections[columnIndex];
 
         rows.sort((rowA, rowB) => {
-            let cellA = rowA.cells[columnIndex].innerText.trim();
-            let cellB = rowB.cells[columnIndex].innerText.trim();
+            let cellA = rowA.cells[columnIndex].innerText.replace('🗑️ Remove', '').trim();
+            let cellB = rowB.cells[columnIndex].innerText.replace('🗑️ Remove', '').trim();
 
-            // Handle empty/N/A entries gracefully so they stay at the bottom
             if (cellA === 'N/A' || cellA === '') return 1;
             if (cellB === 'N/A' || cellB === '') return -1;
 
             if (dataType === 'date') {
-                // Turn text strings into comparison timestamps
                 return isAscending ? new Date(cellA) - new Date(cellB) : new Date(cellB) - new Date(cellA);
             } else {
-                // Standard alphabetical sorting for ingredient names
                 return isAscending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
             }
         });
-
-        // Re-inject sorted rows back into the HTML body layout
         rows.forEach(row => tbody.appendChild(row));
     }
 </script>

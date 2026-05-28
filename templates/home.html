@@ -1,36 +1,122 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Homepage</h1>
+<div class="home-container">
+    <header class="welcome-header">
+        <h1>Dashboard Welcome</h1>
+        <p class="subtitle">Manage your kitchen inventory and find dynamic recipes instantly.</p>
+    </header>
 
-<h2>Current Stock</h2>
+    <div class="dashboard-layout">
+        <div class="dashboard-main">
+            <div class="section-card">
+                <div class="section-card-header">
+                    <h2>📋 Current Pantry Stock</h2>
+                    <a href="/stock" class="btn-manage">Manage Stock →</a>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="modern-table">
+                        <thead>
+                            <tr>
+                                <th>Ingredient</th>
+                                <th>Quantity</th>
+                                <th>Unit</th>
+                                <th>Expiry Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if stock %}
+                                {% for item in stock %}
+                                <tr>
+                                    <td class="capitalize-text font-medium">{{ item[0] }}</td>
+                                    <td>{{ item[1] }}</td>
+                                    <td>{{ item[2] }}</td>
+                                    <td>
+                                        <span class="expiry-tag">
+                                            {% if item[3] %}{{ item[3] }}{% else %}N/A{% endif %}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td colspan="4" class="empty-state">Your pantry is currently empty.</td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-<table>
-    <tr>
-        <th>Ingredient</th>
-        <th>Quantity</th>
-        <th>Unit</th>
-        <th>Expiry</th>
-    </tr>
-
-    {% for item in stock %}
-    <tr>
-        <td>{{ item[0] }}</td>
-        <td>{{ item[1] }}</td>
-        <td>{{ item[2] }}</td>
-        <td>{{ item[3] }}</td>
-    </tr>
-    {% endfor %}
-</table>
-
-<h2>Recipe Suggestions</h2>
-
-{% for recipe in suggestions %}
-<div class="card">
-    <h3>{{ recipe[1] }}</h3>
-    <p>{{ recipe[2] }} matching ingredients</p>
-
-    <a href="/recipe/{{ recipe[0] }}">View Recipe</a>
+        <div class="dashboard-sidebar">
+            <div class="section-card">
+                <h2>💡 Smart Suggestions</h2>
+                <p class="section-desc">Based on items matching your available household stock:</p>
+                
+                <div class="suggestions-stack">
+                    {% if suggestions %}
+                        {% for recipe in suggestions %}
+                        <div class="suggestion-recipe-card">
+                            <div class="sug-header">
+                                <h3 class="capitalize-text">{{ recipe[1] }}</h3>
+                                <span class="match-badge">📦 {{ recipe[2] }} Matches</span>
+                            </div>
+                            <div class="sug-footer">
+                                <a href="{{ url_for('recipes.recipe_detail', r_id=recipe[0]) }}" class="btn-sug-view">View Recipe</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="empty-state">No recommendations found. Try adding more ingredients to your stock!</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-{% endfor %}
+
+<style>
+    .home-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #333; }
+    .welcome-header { margin-bottom: 30px; }
+    .welcome-header h1 { font-size: 2.4rem; margin: 0 0 6px 0; color: #111; }
+    .subtitle { font-size: 1.1rem; color: #666; margin: 0; }
+    
+    /* Text Auto-Capitalization Helpers */
+    .capitalize-text { text-transform: capitalize; }
+    .font-medium { font-weight: 500; }
+
+    /* Dashboard Layout Grid Columns */
+    .dashboard-layout { display: flex; gap: 30px; flex-wrap: wrap; }
+    .dashboard-main { flex: 7; min-width: 320px; }
+    .dashboard-sidebar { flex: 4; min-width: 300px; }
+
+    /* Cards Blocks */
+    .section-card { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+    .section-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .section-card h2 { margin: 0; font-size: 1.4rem; color: #1a1a1a; }
+    .section-desc { font-size: 0.9rem; color: #666; margin: -10px 0 20px 0; }
+    .btn-manage { text-decoration: none; color: #0066cc; font-weight: 500; font-size: 0.95rem; }
+    .btn-manage:hover { text-decoration: underline; }
+
+    /* Modern Table Formatting Styles */
+    .table-responsive { overflow-x: auto; }
+    .modern-table { width: 100%; border-collapse: collapse; margin-top: 10px; text-align: left; }
+    .modern-table th { background: #f8f9fa; padding: 12px 15px; border-bottom: 2px solid #eaeaea; font-weight: 600; font-size: 0.9rem; color: #555; }
+    .modern-table td { padding: 12px 15px; border-bottom: 1px solid #eee; font-size: 0.95rem; }
+    .modern-table tr:hover { background: #fdfdfd; }
+    .expiry-tag { background: #f1f3f5; color: #495057; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 500; }
+    .empty-state { text-align: center; color: #888; font-style: italic; padding: 30px 0; }
+
+    /* Recipe Suggestion Card Stack */
+    .suggestions-stack { display: flex; flex-direction: column; gap: 15px; }
+    .suggestion-recipe-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.02); display: flex; flex-direction: column; gap: 12px; }
+    .suggestion-recipe-card:hover { border-color: #ccc; }
+    .sug-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+    .sug-header h3 { margin: 0; font-size: 1.15rem; color: #222; line-height: 1.4; }
+    .match-badge { background: #e8f5e9; color: #2e7d32; font-size: 0.8rem; font-weight: bold; padding: 4px 8px; border-radius: 4px; white-space: nowrap; }
+    .btn-sug-view { display: block; text-align: center; background: #0066cc; color: white; padding: 8px; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+    .btn-sug-view:hover { background: #0052a3; }
+</style>
 {% endblock %}
