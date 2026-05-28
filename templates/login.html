@@ -1,14 +1,55 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Login</h1>
+<div class="auth-container">
+    <div class="auth-card isolated-card">
+        <header class="auth-header">
+            <h1>Welcome Back</h1>
+            <p class="subtitle">Log in to view your personalized menu matches.</p>
+        </header>
 
-<form action="/login" method="POST">
-    <input type="text" name="username" placeholder="Username" required>
-    <input type="password" name="password" placeholder="Password" required>
+        <form action="/login" method="POST" class="styled-auth-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required autofocus>
+            </div>
 
-    <button type="submit">Login</button>
-</form>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
+            </div>
 
-<a href="{{ url_for('auth.register_page') }}">Create Account</a>
+            <button type="submit" class="btn-primary-auth">Sign In</button>
+        </form>
+
+        <div class="auth-footer-links">
+            <span class="muted-text">New to the platform?</span> 
+            <a href="{{ url_for('auth.register_page') }}" class="inline-link">Create Account</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .auth-container { max-width: 440px; margin: 80px auto; padding: 0 20px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #333; }
+    .isolated-card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 40px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.04), 0 4px 6px -2px rgba(0,0,0,0.02); }
+    
+    .auth-header { text-align: center; margin-bottom: 30px; }
+    .auth-header h1 { font-size: 2rem; margin: 0 0 6px 0; color: #0f172a; font-weight: 700; }
+    .subtitle { font-size: 0.95rem; color: #64748b; margin: 0; }
+
+    .styled-auth-form { display: flex; flex-direction: column; gap: 20px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 0.85rem; font-weight: 600; color: #475569; }
+    
+    .styled-auth-form input { padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; background: #fff; width: 100%; box-sizing: border-box; transition: all 0.15s; }
+    .styled-auth-form input:focus { outline: none; border-color: #0066cc; box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.12); }
+    
+    .btn-primary-auth { background: #0066cc; color: white; border: none; padding: 12px; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.15s; margin-top: 5px; }
+    .btn-primary-auth:hover { background: #0052a3; }
+
+    .auth-footer-links { text-align: center; margin-top: 30px; border-top: 1px solid #f1f5f9; padding-top: 20px; font-size: 0.9rem; }
+    .muted-text { color: #64748b; }
+    .inline-link { color: #0066cc; text-decoration: none; font-weight: 600; margin-left: 4px; }
+    .inline-link:hover { text-decoration: underline; }
+</style>
 {% endblock %}
