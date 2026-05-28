@@ -4,41 +4,109 @@
 <h1>Stock</h1>
 
 <form action="/add_stock" method="POST">
-    <select name="i_id" required>
-        <option value="">Select an ingredient</option>
-        {% for ingredient in ingredients %}
-            <option value="{{ ingredient[0] }}">
-                {{ ingredient[1] }}
-            </option>
-        {% endfor %}
-    </select>
+    <input list="ingredients-list" id="ingredient-search" placeholder="Type to search ingredient..." required
+        style="width: 100%; padding: 8px; margin-bottom: 10px;">
 
-    <input type="number" step="0.01" name="quantity" placeholder="Quantity">
-    <input type="text" name="unit" placeholder="Unit">
+    <input type="hidden" name="i_id" id="hidden-i-id" required>
+
+    <datalist id="ingredients-list">
+        {% for ingredient in ingredients %}
+        <option data-id="{{ ingredient[0] }}" value="{{ ingredient[1] }}">
+            {% endfor %}
+    </datalist>
+
+    <input type="number" step="0.01" name="quantity" placeholder="Quantity" required>
+    <input type="text" name="unit" placeholder="Unit" required>
     <input type="date" name="expiry_date">
 
     <button type="submit">Add Stock</button>
 </form>
 
-<table>
-    <tr>
-        <th>Ingredient</th>
-        <th>Quantity</th>
-        <th>Unit</th>
-        <th>Expiry</th>
-        <th>Delete</th>
-    </tr>
+<style>
+    th.sortable {
+        cursor: pointer;
+        user-select: none;
+    }
 
-    {% for item in stock_items %}
-    <tr>
-        <td>{{ item[1] }}</td>
-        <td>{{ item[2] }}</td>
-        <td>{{ item[3] }}</td>
-        <td>{{ item[4] }}</td>
-        <td>
-            <a href="/delete_stock/{{ item[0] }}">Delete</a>
-        </td>
-    </tr>
-    {% endfor %}
+    th.sortable:hover {
+        background-color: #ddd;
+    }
+</style>
+
+<table id="stock-table">
+    <thead>
+        <tr>
+            <th class="sortable" onclick="sortTable(0, 'text')">Ingredient ↕️</th>
+            <th>Quantity</th>
+            <th>Unit</th>
+            <th class="sortable" onclick="sortTable(3, 'date')">Expiry ↕️</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in stock_items %}
+        <tr>
+            <td>{{ item[1] }}</td>
+            <td>{{ item[2] }}</td>
+            <td>{{ item[3] }}</td>
+            <td>{{ item[4] if item[4] else 'N/A' }}</td>
+            <td>
+                <a href="/delete_stock/{{ item[0] }}" onclick="return confirm('Delete this item?');">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
+
+<script>
+    // --- 1. SEARCH FUNCTION MATCHING ID ---
+    document.getElementById('ingredient-search').addEventListener('input', function (e) {
+        var input = e.target;
+        var list = input.getAttribute('list');
+        var options = document.getElementById(list).options;
+        var hiddenInput = document.getElementById('hidden-i-id');
+
+        hiddenInput.value = "";
+
+        for (var i = 0; i < options.length; i++) {
+            if (options[i].value === input.value) {
+                hiddenInput.value = options[i].getAttribute('data-id');
+                break;
+            }
+        }
+    });
+
+    // --- 2. MULTI-COLUMN TABLE SORTING FUNCTION ---
+    let sortDirections = [true, true, true, true]; // Tracks ascending/descending states
+
+    function sortTable(columnIndex, dataType) {
+        const table = document.getElementById("stock-table");
+        const tbody = table.querySelector("tbody");
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+
+        // Reverse the sort direction tracker for this column
+        sortDirections[columnIndex] = !sortDirections[columnIndex];
+        const isAscending = sortDirections[columnIndex];
+
+        rows.sort((rowA, rowB) => {
+            let cellA = rowA.cells[columnIndex].innerText.trim();
+            let cellB = rowB.cells[columnIndex].innerText.trim();
+
+            // Handle empty/N/A entries gracefully so they stay at the bottom
+            if (cellA === 'N/A' || cellA === '') return 1;
+            if (cellB === 'N/A' || cellB === '') return -1;
+
+            if (dataType === 'date') {
+                // Turn text strings into comparison timestamps
+                return isAscending ? new Date(cellA) - new Date(cellB) : new Date(cellB) - new Date(cellA);
+            } else {
+                // Standard alphabetical sorting for ingredient names
+                return isAscending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+            }
+        });
+
+        // Re-inject sorted rows back into the HTML body layout
+        rows.forEach(row => tbody.appendChild(row));
+    }
+</script>
 {% endblock %}
