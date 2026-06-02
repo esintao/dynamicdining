@@ -4,6 +4,11 @@ from db import get_db_connection
 
 recipes_bp = Blueprint('recipes', __name__)
 
+from flask import Blueprint, render_template, request, redirect, session, url_for, jsonify
+from db import get_db_connection
+
+recipes_bp = Blueprint('recipes', __name__)
+
 @recipes_bp.route('/recipes')
 def recipes_page():
     # 1. Grab filter/sort parameters from URL arguments
@@ -11,9 +16,13 @@ def recipes_page():
     tag_filter = request.args.get('tag', '').strip()
     stock_only = request.args.get('stock_only') == 'true'
     sort_by = request.args.get('sort_by', 'name') # Default sort
+    
+    # --- NEW: Scope parameter to filter for ownership/contributions ---
+    scope_filter = request.args.get('scope', '').strip() 
 
-    # Fetch current household ID from session
+    # Fetch current household ID and user ID from session
     h_id = session.get('household_id') 
+    u_id = session.get('user_id')
 
     conn = get_db_connection()
     cur = conn.cursor()
@@ -76,13 +85,27 @@ def recipes_page():
         ''')
         params.append(h_id)
 
+    # --- NEW: Filter based on Selected Recipe Scope Ownership ---
+    if scope_filter == 'my_recipes' and u_id:
+        where_clauses.append("r.writer_id = %s")
+        params.append(u_id)
+    elif scope_filter == 'my_reviewed' and u_id:
+        where_clauses.append('''
+            r.r_id IN (
+                SELECT DISTINCT r_id 
+                FROM Reviews 
+                WHERE u_id = %s
+            )
+        ''')
+        params.append(u_id)
+
     if where_clauses:
         query += " WHERE " + " AND ".join(where_clauses)
 
     # Group by required primary/joined columns
     query += " GROUP BY r.r_id, u.username"
 
-    # 3. Dynamic Sorting (Including our new stock match sorting option!)
+    # 3. Dynamic Sorting
     if sort_by == 'stock_match' and h_id:
         query += " ORDER BY matched_ingredients_count DESC, r.r_name ASC"
     elif sort_by == 'cooking_time':
@@ -111,7 +134,8 @@ def recipes_page():
         search_query=search_query,
         selected_tag=tag_filter,
         stock_only=stock_only,
-        sort_by=sort_by
+        sort_by=sort_by,
+        scope_filter=scope_filter # Sent to manage selection dropdown state
     )
 
 @recipes_bp.route('/recipe/<int:r_id>')
