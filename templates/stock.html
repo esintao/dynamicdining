@@ -10,7 +10,7 @@
     <div class="form-card">
         <div class="pantry-form-split">
             <div class="form-section-block">
-                <h3>➕ Log Ingredient to Pantry</h3>
+                <h3>╋ Log Ingredient to Pantry</h3>
                 <form action="/add_stock" method="POST" class="horizontal-stock-form">
                     <div class="form-row row-top">
                         <div class="form-group basis-wide">
@@ -42,7 +42,7 @@
                             <input type="date" id="expiry_date" name="expiry_date">
                         </div>
 
-                        <button type="submit" class="btn-submit-stock">Add to Stock</button>
+                        <button type="submit" class="btn-submit-stock" onclick="saveScrollPosition()">Add to Stock</button>
                     </div>
                 </form>
             </div>
@@ -105,12 +105,14 @@
                             <td style="text-align: center;">
                                 <div class="action-btn-cluster view-state-flex">
                                     <button type="button" class="btn-edit-trigger" onclick="toggleEditMode('{{ item[0] }}')">✏️ Edit</button>
-                                    <a href="/delete_stock/{{ item[0] }}" class="btn-delete" onclick="return confirm('Remove item from stock?');">🗑️ Remove</a>
+                                    <a href="/delete_stock/{{ item[0] }}" class="btn-delete"
+                                        onclick="saveScrollPosition(); return confirm('Remove item from stock?');">🗑️ Remove</a>
                                 </div>
 
                                 <div class="action-btn-cluster edit-state-flex">
-                                    <button type="submit" form="form-{{ item[0] }}" class="btn-save-inline">💾 Save</button>
+                                    <button type="submit" form="form-{{ item[0] }}" class="btn-save-inline" onclick="saveScrollPosition()">💾 Save</button>
                                     <button type="button" class="btn-cancel-inline" onclick="toggleEditMode('{{ item[0] }}')">❌ Cancel</button>
+                                    
                                 </div>
                             </td>
                         </tr>
@@ -287,5 +289,21 @@
         });
         rows.forEach(row => tbody.appendChild(row));
     }
+    // Function to capture and save the current vertical scroll coordinate
+        function saveScrollPosition() {
+            sessionStorage.setItem("stock_scroll_pos", window.scrollY);
+        }
+
+        // Automatically check and restore the scroll position upon page reload execution
+        window.addEventListener("DOMContentLoaded", function () {
+            const savedScrollPos = sessionStorage.getItem("stock_scroll_pos");
+            if (savedScrollPos !== null) {
+                // Jump directly to the exact pixel location
+                window.scrollTo(0, parseInt(savedScrollPos, 10));
+                // Clear it immediately so it doesn't trap the user there forever
+                sessionStorage.removeItem("stock_scroll_pos");
+            }
+        });
+    
 </script>
 {% endblock %}
