@@ -55,23 +55,46 @@
                         <th>Quantity</th>
                         <th>Unit</th>
                         <th class="sortable" onclick="sortTable(3, 'date')">Expiry Date <span class="sort-icon">↕️</span></th>
-                        <th style="text-align: center;">Action</th>
+                        <th style="text-align: center; width: 220px;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% if stock_items %}
                         {% for item in stock_items %}
-                        <tr>
+                        <tr id="row-{{ item[0] }}" class="inventory-row">
                             <td class="capitalize-text font-medium">{{ item[1] }}</td>
-                            <td class="numeric-style">{{ item[2] }}</td>
-                            <td><span class="unit-badge">{{ item[3] }}</span></td>
-                            <td>
-                                <span class="date-display">
-                                    {{ item[4] if item[4] else 'N/A' }}
-                                </span>
+                            
+                            <td colspan="3" style="padding: 0;">
+                                <form id="form-{{ item[0] }}" action="{{ url_for('stock.update_stock', s_id=item[0]) }}" method="POST" class="row-integrated-form">
+                                    
+                                    <div class="td-cell-mock qty-col">
+                                        <span class="view-state numeric-style">{{ item[2] }}</span>
+                                        <input type="number" step="0.01" name="quantity" value="{{ item[2] }}" class="edit-state inline-table-input numeric-style" required>
+                                    </div>
+
+                                    <div class="td-cell-mock unit-col">
+                                        <span class="view-state unit-badge">{{ item[3] }}</span>
+                                        <input type="text" name="unit" value="{{ item[3] }}" class="edit-state inline-table-input unit-style" required>
+                                    </div>
+
+                                    <div class="td-cell-mock date-col">
+                                        <span class="view-state date-display">{{ item[4] if item[4] else 'N/A' }}</span>
+                                        <input type="date" name="expiry_date" value="{{ item[4] if item[4] else '' }}" class="edit-state inline-table-input date-style">
+                                    </div>
+
+                                </form>
                             </td>
+
                             <td style="text-align: center;">
-                                <a href="/delete_stock/{{ item[0] }}" class="btn-delete" onclick="return confirm('Remove item from stock?');">🗑️ Remove</a>
+                                <div class="action-btn-cluster view-state-flex">
+                                    <button type="button" class="btn-edit-trigger" onclick="toggleEditMode('{{ item[0] }}')">✏️ Edit</button>
+                                    <a href="/delete_stock/{{ item[0] }}" class="btn-delete" onclick="return confirm('Remove item from stock?');">🗑️ Remove</a>
+                                </div>
+
+                                <div class="action-btn-cluster edit-state-flex">
+                                    <button type="submit" form="form-{{ item[0] }}" class="btn-save-inline">💾 Save</button>
+                                    <button type="button" class="btn-cancel-inline" onclick="toggleEditMode('{{ item[0] }}')">❌ Cancel</button>
+                                </div>
                             </td>
                         </tr>
                         {% endfor %}
@@ -95,7 +118,7 @@
     .capitalize-text { text-transform: capitalize; }
     .font-medium { font-weight: 500; }
 
-    /* Styled Form Card Box */
+    /* Form Card Box */
     .form-card { background: #f8f9fa; border: 1px solid #eef0f2; border-radius: 8px; padding: 20px 25px; margin-bottom: 30px; }
     .form-card h3 { margin-top: 0; margin-bottom: 15px; font-size: 1.1rem; color: #444; }
     
@@ -112,15 +135,20 @@
     .btn-submit-stock { background: #2e7d32; color: white; border: none; padding: 11px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; white-space: nowrap; height: 38px; }
     .btn-submit-stock:hover { background: #235e26; }
 
-    /* Interactive Table Formatting */
+    /* Table Formatting */
     .table-card { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.01); }
     .table-card h3 { margin-top: 0; margin-bottom: 20px; font-size: 1.25rem; }
     .table-responsive { overflow-x: auto; }
 
-    .modern-stock-table { width: 100%; border-collapse: collapse; text-align: left; }
+    .modern-stock-table { width: 100%; border-collapse: collapse; text-align: left; table-layout: fixed; }
+    .modern-stock-table th:nth-child(1) { width: 24%; }
+    .modern-stock-table th:nth-child(2) { width: 16%; }
+    .modern-stock-table th:nth-child(3) { width: 16%; }
+    .modern-stock-table th:nth-child(4) { width: 22%; }
+    .modern-stock-table th:nth-child(5) { width: 22%; }
+
     .modern-stock-table th { background: #f8f9fa; padding: 12px 15px; font-size: 0.88rem; color: #555; border-bottom: 2px solid #eaeaea; }
     
-    /* Sortable Header Behaviors */
     th.sortable { cursor: pointer; user-select: none; }
     th.sortable:hover { background-color: #f1f3f5; color: #000; }
     .sort-icon { font-size: 0.75rem; margin-left: 4px; color: #999; }
@@ -128,17 +156,58 @@
     .modern-stock-table td { padding: 12px 15px; border-bottom: 1px solid #eee; font-size: 0.95rem; vertical-align: middle; }
     .modern-stock-table tr:hover { background: #fafafa; }
     
-    .numeric-style { font-family: monospace; font-size: 1.05rem !important; font-weight: bold; }
-    .unit-badge { background: #e8f0fe; color: #1a73e8; padding: 3px 6px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
-    .date-display { color: #555; font-size: 0.9rem; }
+    .row-integrated-form { display: flex; width: 100%; align-items: center; margin: 0; }
+    .td-cell-mock { padding: 12px 15px; box-sizing: border-box; }
+    .qty-col { width: 29.5%; }
+    .unit-col { width: 29.5%; }
+    .date-col { width: 41%; }
+
+    /* Input overrides */
+    .inline-table-input { width: 100%; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.9rem; background: #fff; box-sizing: border-box; }
+    .inline-table-input:focus { border-color: #3b82f6; outline: none; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1); }
     
-    .btn-delete { text-decoration: none; color: #c92a2a; background: #fff5f5; padding: 6px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 500; border: 1px solid #ffe3e3; display: inline-block; }
+    .numeric-style { font-family: monospace; font-weight: bold; }
+    .unit-badge { background: #e8f0fe; color: #1a73e8; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; display: inline-block; }
+    .unit-style { background: #f8f9fa; color: #1a73e8; font-weight: 600; text-transform: lowercase; }
+    .date-display { color: #555; font-size: 0.9rem; }
+    .date-style { color: #444; font-size: 0.85rem; }
+
+    /* Action Buttons styling clusters */
+    .action-btn-cluster { gap: 8px; justify-content: center; align-items: center; }
+    .view-state-flex { display: flex; }
+    .edit-state-flex { display: none; } /* Hidden by default */
+
+    .btn-edit-trigger { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+    .btn-edit-trigger:hover { background: #e2e8f0; border-color: #94a3b8; color: #0f172a; }
+
+    .btn-save-inline { background: #2e7d32; color: white; border: 1px solid #2e7d32; padding: 6px 14px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; cursor: pointer; transition: all 0.15s; }
+    .btn-save-inline:hover { background: #235e26; }
+
+    .btn-cancel-inline { background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 500; cursor: pointer; }
+    .btn-cancel-inline:hover { background: #e2e8f0; color: #334155; }
+
+    .btn-delete { text-decoration: none; color: #c92a2a; background: #fff5f5; padding: 6px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 500; border: 1px solid #ffe3e3; display: inline-flex; align-items: center; }
     .btn-delete:hover { background: #ffe3e3; color: #a61c1c; }
     .empty-state { text-align: center; color: #888; font-style: italic; padding: 30px 0; }
+
+    /* --- TOGGLE CONTROLLER CLASSES --- */
+    .edit-state { display: none; } /* Inputs hidden by default */
+    
+    /* When active, swap element visibility */
+    .edit-mode-active .view-state { display: none; }
+    .edit-mode-active .edit-state { display: block; }
+    .edit-mode-active .view-state-flex { display: none; }
+    .edit-mode-active .edit-state-flex { display: flex; }
 </style>
 
 <script>
-    // Keep your exact Javascript matching engine and sorting functionalities untouched below
+    // --- NEW: TOGGLE EDIT/VIEW ROW MODE ---
+    function toggleEditMode(sId) {
+        const row = document.getElementById(`row-${sId}`);
+        row.classList.toggle('edit-mode-active');
+    }
+
+    // Ingredient lookup system logic
     document.getElementById('ingredient-search').addEventListener('input', function (e) {
         var input = e.target;
         var list = input.getAttribute('list');
@@ -164,8 +233,15 @@
         const isAscending = sortDirections[columnIndex];
 
         rows.sort((rowA, rowB) => {
-            let cellA = rowA.cells[columnIndex].innerText.replace('🗑️ Remove', '').trim();
-            let cellB = rowB.cells[columnIndex].innerText.replace('🗑️ Remove', '').trim();
+            let cellA, cellB;
+            
+            if (columnIndex === 0) {
+                cellA = rowA.cells[0].innerText.trim();
+                cellB = rowB.cells[0].innerText.trim();
+            } else if (columnIndex === 3) {
+                cellA = rowA.querySelector('input[name="expiry_date"]').value;
+                cellB = rowB.querySelector('input[name="expiry_date"]').value;
+            }
 
             if (cellA === 'N/A' || cellA === '') return 1;
             if (cellB === 'N/A' || cellB === '') return -1;

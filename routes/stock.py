@@ -3,7 +3,6 @@ from db import get_db_connection
 
 stock_bp = Blueprint('stock', __name__)
 
-
 @stock_bp.route('/stock')
 def stock_page():
     conn = get_db_connection()
@@ -35,8 +34,6 @@ def stock_page():
         ingredients=ingredients
     )
 
-
-
 @stock_bp.route('/add_stock', methods=['POST'])
 def add_stock():
     i_id = request.form.get('i_id')
@@ -58,14 +55,43 @@ def add_stock():
         i_id,
         quantity,
         unit,
-        expiry_date
+        expiry_date if expiry_date else None
     ))
 
     conn.commit()
-
     cur.close()
     conn.close()
 
+    return redirect(url_for('stock.stock_page'))
+
+
+# --- UPDATED: HANDLES QUANTITY, UNIT, & EXPIRY ALL IN ONE GO ---
+@stock_bp.route('/update_stock/<int:s_id>', methods=['POST'])
+def update_stock(s_id):
+    new_quantity = request.form.get('quantity')
+    new_unit = request.form.get('unit')
+    new_expiry = request.form.get('expiry_date')
+    
+    if new_quantity and new_unit:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        
+        cur.execute('''
+            UPDATE Stock 
+            SET quantity = %s, unit = %s, expiry_date = %s 
+            WHERE s_id = %s AND h_id = %s
+        ''', (
+            new_quantity, 
+            new_unit, 
+            new_expiry if new_expiry else None, 
+            s_id, 
+            session['household_id']
+        ))
+        
+        conn.commit()
+        cur.close()
+        conn.close()
+        
     return redirect(url_for('stock.stock_page'))
 
 
@@ -77,7 +103,6 @@ def delete_stock(s_id):
     cur.execute('DELETE FROM Stock WHERE s_id = %s', (s_id,))
 
     conn.commit()
-
     cur.close()
     conn.close()
 
