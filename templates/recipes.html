@@ -5,7 +5,7 @@
     
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
         <h1 style="margin: 0; font-size: 2.2rem; color: #111;">Recipe Catalogue</h1>
-        <a href="{{ url_for('recipes.add_recipe') }}" style="background-color: #2e7d32; color: white; text-decoration: none; padding: 12px 20px; border-radius: 6px; font-weight: bold; font-size: 0.95rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 8px;">
+        <a href="{{ url_for('recipes.add_recipe') }}" style="background-color: #678D58; color: white; text-decoration: none; padding: 12px 20px; border-radius: 6px; font-weight: bold; font-size: 0.95rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 8px;">
             <span>╋</span> Add Your Recipe
         </a>
     </div>
@@ -69,7 +69,12 @@
             {% for recipe in recipes %}
             <div class="recipe-card">
                 <div class="card-header">
-                    <h2>{{ recipe[1] }}</h2>
+                    <h2>
+                        {% set title_words = recipe[1].split() %}
+                        {% for word in title_words %}
+                            {{ word.capitalize() }}
+                        {% endfor %}
+                    </h2>
                     <span class="author">By {{ recipe[2] }}</span>
                 </div>
                 
@@ -118,8 +123,9 @@
     .recipe-card { border: 1px solid #e0e0e0; border-radius: 8px; display: flex; flex-direction: column; justify-content: space-between; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.04); transition: transform 0.15s ease; }
     .recipe-card:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
     .card-header { padding: 15px 20px; border-bottom: 1px solid #f0f0f0; background: #fafafa; border-radius: 8px 8px 0 0; }
-    .card-header h2 { margin: 0 0 5px 0; font-size: 1.35rem; color: #222; }
+    .card-header h2 { margin: 0 0 5px 0; font-size: 1.35rem; color: #222; font-weight: 700; letter-spacing: -0.02em; }
     .author { font-size: 0.85rem; color: #666; }
+    
     .card-body { padding: 20px; flex-grow: 1; }
     .meta-info { font-size: 0.85rem; color: #444; margin-bottom: 12px; background: #f0f7f4; padding: 8px 12px; border-radius: 4px; line-height: 1.4; }
     .description { font-size: 0.95rem; line-height: 1.5; color: #555; margin: 0; }
