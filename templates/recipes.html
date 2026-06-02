@@ -18,6 +18,17 @@
         </div>
 
         <div class="filter-group">
+            <label for="scope">Catalogue Scope:</label>
+            <select name="scope" id="scope">
+                <option value="">🌍 All Recipes</option>
+                {% if session.get('user_id') %}
+                    <option value="my_recipes" {% if scope_filter == 'my_recipes' %}selected{% endif %}>👨‍🍳 My Created Recipes</option>
+                    <option value="my_reviewed" {% if scope_filter == 'my_reviewed' %}selected{% endif %}>📝 My Reviewed Recipes</option>
+                {% endif %}
+            </select>
+        </div>
+
+        <div class="filter-group">
             <label for="tag">Tag:</label>
             <select name="tag" id="tag">
                 <option value="">All Tags</option>
@@ -94,13 +105,13 @@
     .filter-form { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end; background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #eef0f2; }
     .filter-group { display: flex; flex-direction: column; gap: 6px; }
     .search-box { flex-grow: 1; min-width: 220px; }
-    .filter-form input[type="text"], .filter-form select { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; background: white; }
+    .filter-form input[type="text"], .filter-form select { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; background: white; height: 40px; box-sizing: border-box; }
     .checkbox-group { display: flex; align-items: center; padding-bottom: 10px; cursor: pointer; }
     .checkbox-group label { display: flex; align-items: center; gap: 6px; font-weight: bold; color: #444; font-size: 0.9rem;}
     .filter-actions { display: flex; gap: 10px; }
-    .btn-filter { background: #333; color: white; border: none; padding: 11px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px; }
+    .btn-filter { background: #333; color: white; border: none; padding: 11px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px; height: 40px; }
     .btn-filter:hover { background: #111; }
-    .btn-clear { background: #e0e0e0; color: #333; padding: 11px 20px; border-radius: 4px; text-decoration: none; text-align: center; font-size: 14px; font-weight: bold; }
+    .btn-clear { background: #e0e0e0; color: #333; padding: 11px 20px; border-radius: 4px; text-decoration: none; text-align: center; font-size: 14px; font-weight: bold; height: 40px; line-height: 18px; box-sizing: border-box; }
     .btn-clear:hover { background: #d2d2d2; }
     
     .recipe-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin-top: 20px; }

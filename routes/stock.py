@@ -107,3 +107,24 @@ def delete_stock(s_id):
     conn.close()
 
     return redirect(url_for('stock.stock_page'))
+
+@stock_bp.route('/add_ingredient_db', methods=['POST'])
+def add_ingredient_db():
+    new_name = request.form.get('new_ingredient_name')
+    if new_name:
+        new_name = new_name.strip().lower()
+        conn = get_db_connection()
+        cur = conn.cursor()
+        
+        # Insert only if it doesn't already exist to avoid duplicate entries
+        cur.execute('''
+            INSERT INTO Ingredients (ingredient_name)
+            VALUES (%s)
+            ON CONFLICT (ingredient_name) DO NOTHING
+        ''', (new_name,))
+        
+        conn.commit()
+        cur.close()
+        conn.close()
+        
+    return redirect(url_for('stock.stock_page'))
