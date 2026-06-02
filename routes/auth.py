@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, session, url_for, flash
 from db import get_db_connection
+import re
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -78,3 +79,21 @@ def register_user():
 def logout():
     session.clear()
     return redirect(url_for('auth.login_page'))
+
+def validate_password_strength(password):
+    """
+    Returns True if the password meets all security criteria:
+    - At least 8 characters long
+    - At least one uppercase letter
+    - At least one digit
+    - At least one special character
+    """
+    if len(password) < 8:
+        return False
+    if not re.search(r"[A-Z]", password):
+        return False
+    if not re.search(r"[0-9]", password):
+        return False
+    if not re.search(r"[@$!%*?&]", password):
+        return False
+    return True
