@@ -126,9 +126,9 @@ button,
 .btn,
 .btn-primary,
 input[type="submit"] {
-    background-color: #3a5a40 !important;
+    background-color: #678D58 !important;
     /* Rich moss green base */
-    color: #dad7cd !important;
+    color: #ffffff !important;
     /* Contrasting clean stone-cream text */
     border: none !important;
     border-radius: 8px;
@@ -146,7 +146,7 @@ button:hover,
 .btn:hover,
 .btn-primary:hover,
 input[type="submit"]:hover {
-    background-color: #283d2e !important;
+    background-color: #527046 !important;
     /* Deep woodland shadow tint on hover */
     color: #ffffff !important;
     transform: translateY(-1px);
