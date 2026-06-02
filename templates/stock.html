@@ -135,6 +135,22 @@
     .capitalize-text { text-transform: capitalize; }
     .font-medium { font-weight: 500; }
 
+    /* Split form container style */
+    .pantry-form-split { display: flex; gap: 30px; flex-wrap: wrap; }
+    .form-section-block { flex: 2; min-width: 300px; }
+    .db-addition-border { flex: 1; border-left: 1px solid #e2e8f0; padding-left: 30px; display: flex; flex-direction: column; }
+    
+    .section-hint-text { font-size: 0.85rem; color: #64748b; margin: 0 0 15px 0; line-height: 1.4; }
+    .inline-creation-form { display: flex; flex-direction: column; gap: 15px; margin-top: auto; }
+    
+    .btn-submit-db { background: #1e293b; color: white; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 13px; }
+    .btn-submit-db:hover { background: #0f172a; }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .db-addition-border { border-left: none; border-top: 1px solid #e2e8f0; padding-left: 0; padding-top: 20px; }
+    }
+
     /* Form Card Box */
     .form-card { background: #f8f9fa; border: 1px solid #eef0f2; border-radius: 8px; padding: 20px 25px; margin-bottom: 30px; }
     .form-card h3 { margin-top: 0; margin-bottom: 15px; font-size: 1.1rem; color: #444; }
