@@ -1,69 +1,202 @@
+/* Import a premium editorial serif and an elegant, crisp geometric sans */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
+
 body {
     margin: 0;
     padding: 0;
+    background-color: #eeece7;
+    /* Premium muted stone-cream base canvas */
+    color: #242b26;
+    /* Rich off-black earthy tone */
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
 }
 
+/* --- THE EDITORIAL HEADERS --- */
+h1,
+h2,
+h3,
+.brand-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    color: #344e41;
+    /* Deepest forest pine accent */
+    font-weight: 600;
+    margin-top: 0;
+    letter-spacing: -0.02em;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+h2 {
+    font-size: 1.85rem;
+    font-weight: 500;
+}
+
+h3 {
+    font-size: 1.35rem;
+}
+
+/* Subtitle descriptions underneath headers */
+.subtitle {
+    color: #588157;
+    /* Elegant soft mid-green text */
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 2rem;
+}
+
+/* --- NAVIGATION BAR --- */
 nav {
-    background-color: #333;
-    padding: 15px;
+    background-color: #3A5A40;
+    /* Deepest forest pine container */
+    padding: 18px 40px;
+    border-bottom: 1px solid #3A5A40;
+    display: flex;
+    gap: 24px;
+    align-items: center;
 }
 
 nav a {
-    color: white;
-    margin-right: 15px;
+    color: #dad7cd;
+    /* Balanced stone-cream links */
+    font-weight: 500;
+    font-size: 0.95rem;
     text-decoration: none;
+    transition: all 0.2s ease;
 }
 
+nav a:hover {
+    color: #ffffff;
+    /* Pure white glow on hover */
+}
+
+/* --- CONTAINER & CARDS --- */
 .container {
-    width: 80%;
+    width: 90%;
+    max-width: 1200px;
     margin: auto;
-    padding: 20px;
+    padding: 40px 20px;
 }
 
 .card {
-    background: white;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
+    background: #FFFFFF;
+    /* Pure white crisp surface cards */
+    padding: 28px;
+    margin-bottom: 24px;
+    border-radius: 16px;
+    border: 1px solid #a3b18a;
+    /* Sage outline boundary framing */
+    box-shadow: 0 6px 24px rgba(52, 78, 65, 0.06);
+    /* Soft pine-tinted drop shadows */
 }
 
-form {
-    margin-bottom: 20px;
-}
-
+/* --- FORMS & INPUTS --- */
 input,
 select,
 textarea {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 14px;
+    margin-bottom: 16px;
+    background-color: #FFFFFF;
+    border: 1px solid #a3b18a;
+    border-radius: 8px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.95rem;
+    color: #242b26;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
 }
 
-button {
-    background-color: #333;
-    color: white;
-    border: none;
-    padding: 10px 20px;
+/* --- OVERRIDING BLUE FORM HIGHLIGHTS --- */
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none !important;
+    border-color: #3a5a40 !important;
+    /* Rich moss green outline ring */
+    box-shadow: 0 0 0 3px rgba(58, 90, 64, 0.15) !important;
+}
+
+/* --- BUTTONS --- */
+button,
+.button-link,
+.btn,
+.btn-primary,
+input[type="submit"] {
+    background-color: #3a5a40 !important;
+    /* Rich moss green base */
+    color: #dad7cd !important;
+    /* Contrasting clean stone-cream text */
+    border: none !important;
+    border-radius: 8px;
+    padding: 14px 28px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
     cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease;
 }
 
-button:hover {
-    background-color: #555;
+button:hover,
+.btn:hover,
+.btn-primary:hover,
+input[type="submit"]:hover {
+    background-color: #283d2e !important;
+    /* Deep woodland shadow tint on hover */
+    color: #ffffff !important;
+    transform: translateY(-1px);
 }
 
-
- table {
+/* --- TABLES --- */
+table {
     width: 100%;
-    border-collapse: collapse;
-    background: white;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #FFFFFF;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #a3b18a;
 }
 
 th,
 td {
-    border: 1px solid #ccc;
-    padding: 10px;
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #dad7cd;
+    font-size: 0.95rem;
 }
 
 th {
-    background-color: #eee;
+    background-color: #dad7cd;
+    /* Table header tracks global background theme */
+    color: #344e41;
+    /* Solid pine typography header text */
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* Alternating clean table row tint using light sage elements */
+tbody tr:nth-child(even) {
+    background-color: #f4f6f1;
+}
+
+/* --- GENERAL LINK CLEANUP --- */
+a {
+    color: #3a5a40;
+    /* Rich moss for body navigation links */
+    text-decoration: none;
+}
+
+a:hover {
+    color: #283d2e;
+    text-decoration: underline;
 }

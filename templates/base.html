@@ -11,13 +11,13 @@
 
     <nav>
         {% if session.get('user_id') %}
-        
+        <a href="{{ url_for('household.households') }}">Select Household</a>
 
         {% if session.get('household_id') %}
         <a href="{{ url_for('household.home') }}">Home</a>
         <a href="{{ url_for('stock.stock_page') }}">Stock</a>
         <a href="{{ url_for('recipes.recipes_page') }}">Recipes</a>
-        <a href="{{ url_for('household.households') }}">Switch Household</a>
+        
         {% endif %}
 
         <a href="{{ url_for('auth.logout') }}">Logout</a>
