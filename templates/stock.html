@@ -8,41 +8,58 @@
     </header>
 
     <div class="form-card">
-        <h3>➕ Log New Ingredient Item</h3>
-        <form action="/add_stock" method="POST" class="horizontal-stock-form">
-            <div class="form-row row-top">
-                <div class="form-group basis-wide">
-                    <label for="ingredient-search">Search Ingredient</label>
-                    <input list="ingredients-list" id="ingredient-search" placeholder="Type name to lookup item database..." required>
-                    <input type="hidden" name="i_id" id="hidden-i-id" required>
-                    
-                    <datalist id="ingredients-list">
-                        {% for ingredient in ingredients %}
-                        <option data-id="{{ ingredient[0] }}" value="{{ ingredient[1] }}">
-                        {% endfor %}
-                    </datalist>
-                </div>
+        <div class="pantry-form-split">
+            <div class="form-section-block">
+                <h3>➕ Log Ingredient to Pantry</h3>
+                <form action="/add_stock" method="POST" class="horizontal-stock-form">
+                    <div class="form-row row-top">
+                        <div class="form-group basis-wide">
+                            <label for="ingredient-search">Search Master Database</label>
+                            <input list="ingredients-list" id="ingredient-search" placeholder="Type name to lookup item database..." required>
+                            <input type="hidden" name="i_id" id="hidden-i-id" required>
+                            
+                            <datalist id="ingredients-list">
+                                {% for ingredient in ingredients %}
+                                <option data-id="{{ ingredient[0] }}" value="{{ ingredient[1] }}">
+                                {% endfor %}
+                            </datalist>
+                        </div>
+                    </div>
+
+                    <div class="form-row row-bottom">
+                        <div class="form-group">
+                            <label for="quantity">Quantity</label>
+                            <input type="number" step="0.01" id="quantity" name="quantity" placeholder="e.g. 2.5" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="unit">Unit</label>
+                            <input type="text" id="unit" name="unit" placeholder="e.g. kg, pcs, ml" required>
+                        </div>
+
+                        <div class="form-group basis-medium">
+                            <label for="expiry_date">Expiration Date</label>
+                            <input type="date" id="expiry_date" name="expiry_date">
+                        </div>
+
+                        <button type="submit" class="btn-submit-stock">Add to Stock</button>
+                    </div>
+                </form>
             </div>
 
-            <div class="form-row row-bottom">
-                <div class="form-group">
-                    <label for="quantity">Quantity</label>
-                    <input type="number" step="0.01" id="quantity" name="quantity" placeholder="e.g. 2.5" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="unit">Unit</label>
-                    <input type="text" id="unit" name="unit" placeholder="e.g. kg, pcs, ml" required>
-                </div>
-
-                <div class="form-group basis-medium">
-                    <label for="expiry_date">Expiration Date</label>
-                    <input type="date" id="expiry_date" name="expiry_date">
-                </div>
-
-                <button type="submit" class="btn-submit-stock">Add to Stock</button>
+            <div class="form-section-block db-addition-border">
+                <h3>🧪 Register New Database Item</h3>
+                <p class="section-hint-text">Can't find an ingredient in the search lookups? Add it to the shared global catalog here first.</p>
+                
+                <form action="{{ url_for('stock.add_ingredient_db') }}" method="POST" class="inline-creation-form">
+                    <div class="form-group">
+                        <label for="new_ingredient_name">Ingredient Name</label>
+                        <input type="text" id="new_ingredient_name" name="new_ingredient_name" placeholder="e.g., Avocado oil, Oat Milk" required>
+                    </div>
+                    <button type="submit" class="btn-submit-db">Create Entry</button>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 
     <div class="table-card">

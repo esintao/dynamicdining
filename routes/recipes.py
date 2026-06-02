@@ -194,23 +194,21 @@ def add_review(r_id):
 
 @recipes_bp.route('/recipes/add', methods=['GET', 'POST'])
 def add_recipe():
-    # Verify the user is logged in before letting them see the form
     if 'user_id' not in session:
-        # Check your auth.py file. If your login route is inside auth_bp, 
-        # this might need to be url_for('auth.login')
         return redirect(url_for('auth.login')) 
 
     conn = get_db_connection()
     cur = conn.cursor()
 
     if request.method == 'POST':
+        # ... Keep your exact existing POST recipe logic here untouched ...
+        # (It already takes care of inserting the new ingredient records perfectly!)
         r_name = request.form.get('r_name')
         description = request.form.get('description')
         instructions = request.form.get('instructions')
         cooking_time = request.form.get('cooking_time') or None
         writer_id = session['user_id']
 
-        # Insert recipe metadata
         cur.execute('''
             INSERT INTO Recipes (r_name, description, instructions, cooking_time, writer_id)
             VALUES (%s, %s, %s, %s, %s)
@@ -218,17 +216,14 @@ def add_recipe():
         ''', (r_name, description, instructions, cooking_time, writer_id))
         r_id = cur.fetchone()[0]
 
-        # Read arrays of fields from the dynamic frontend rows
         ingredient_names = request.form.getlist('ingredient_name[]')
         quantities = request.form.getlist('quantity[]')
         units = request.form.getlist('unit[]')
 
         for name, qty, unit in zip(ingredient_names, quantities, units):
             name = name.strip().lower()
-            if not name:
-                continue
+            if not name: continue
 
-            # Get or create ingredient id
             cur.execute('''
                 INSERT INTO Ingredients (ingredient_name)
                 VALUES (%s)
@@ -237,13 +232,11 @@ def add_recipe():
             ''', (name,))
             i_id = cur.fetchone()[0]
 
-            # Bind to Recipe_Ingredients junction table
             cur.execute('''
                 INSERT INTO Recipe_Ingredients (r_id, i_id, quantity, unit)
                 VALUES (%s, %s, %s, %s)
             ''', (r_id, i_id, qty or None, unit or None))
 
-        # Handle comma-separated tags
         tags_input = request.form.get('tags', '')
         if tags_input:
             tags_list = [t.strip().lower() for t in tags_input.split(',') if t.strip()]
@@ -265,9 +258,13 @@ def add_recipe():
         conn.commit()
         cur.close()
         conn.close()
-
         return redirect(url_for('recipes.recipe_detail', r_id=r_id))
 
+    # --- CHANGED: Fetch the active database list to populate our dropdown datalists ---
+    cur.execute('SELECT ingredient_name FROM Ingredients ORDER BY ingredient_name ASC')
+    ingredients = cur.fetchall()
+    
     cur.close()
     conn.close()
-    return render_template('add_recipe.html')
+    return render_template('add_recipe.html', ingredients=ingredients)
+
