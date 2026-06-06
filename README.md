@@ -84,35 +84,24 @@ Connect to PostgresSQL
 psql -U postgres
 ```
 
-Create the database in postgres terminal
+Create the database in postgres terminal. Or do it in pgAdmin.
 ```bash
 CREATE DATABASE recipe_app;
-CREATE USER postgres WITH PASSWORD 'SuperSecretPassword';
-ALTER USER postgres SUPERUSER;
-```
-Verify the database was created
-```bash
-psql -U postgres -d recipe_app -c "\dt"
 ```
 
 5. Initialize schema
-Run on postgres
 ```bash
 psql -U postgres -d recipe_app -f schemas.sql
 ```
 
-Verify the tables were created
-```bash
-psql -U postgres -d recipe_app -c "\dt"
-```
-
-6. Verify the .env looks like this
+6. Change the file .env in the project
+Change the DB_PASSWORD value to match your own local PostgreSQL system password:
 ```python
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=recipe_app
 DB_USER=postgres
-DB_PASSWORD=SuperSecretPassword
+DB_PASSWORD=your_actual_local_password_here
 ````
 
 7. Load initial data into relations
