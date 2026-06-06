@@ -31,7 +31,7 @@ def import_csv_to_table(cursor, csv_filename, table_name):
     into the designated PostgreSQL table using COPY.
     """
     base_path = os.path.dirname(os.path.abspath(__file__))
-    csv_path = os.path.join(base_path, csv_filename)
+    csv_path = os.path.join(base_path, 'value_files', csv_filename)
     
     if not os.path.exists(csv_path):
         print(f"Skipping '{table_name}': File '{csv_filename}' not found.")
