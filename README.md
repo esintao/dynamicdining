@@ -192,3 +192,53 @@ python import_all_csv_data.py
 ---
 
 # Interaction instructions
+You can either use one of our premade accounts or create a new one.
+
+## Login
+You can login using the username "dualipa" and the password "password123". You can also use the other pre-made ones on users.csv.
+
+>[!NOTE]
+> These passwords do not follow the Regex rules we have stated for new users. We have given special privileges to ourselves and the famous singer, Dua Lipa.
+
+You can also create a new user, using the link "Create account". Note new accounts must use a password with the given security rules. After creating a user, you get redirected into the login page.
+
+## Choose household
+In this page, you can choose a household (given that you are already in one) or create/join a household. You can create/join a household by pressing "Join or Create Household".
+
+Users can be a part of multiple households, as we want our site to accomodate children of divorce, or students who frequently return from their dorm to their parents house :-)
+
+When joining other households, you need a password. You can for example join the household thelipahouse, with the password password123.
+
+When creating a household, you write a household name and a password that follows our security rules.
+
+## Homepage
+You will now enter the homepage, where you will see your current stock and recipe suggestions based on what you have in your stock.
+
+## Stock manager
+From the homepage on "Manage stock" or from the top bar through "Stock" you enter the stock manager. 
+
+Here, you can see your current stock, update the items, and delete them. You can also add new items. Items are listed their ingredient name, quantity, unit and expiry date. You can add new items by selecting from a list of ingredients or add new ingredients to our database by writing them down.
+
+## Recipe catalogue
+From the top bar you can go to the recipe catalogue by pressing "Recipes".
+
+Here, you can search for recipes based on their name and description, filter recipes by tags, filter recipes that only use your in-stock items and filter recipes by the ones you have written yourself or reviewed. 
+
+### Recipe page
+When pressing "View recipe" either through the recipe catalogue or the suggested recipes on the homepage, you will get a recipe, its description, ingredients and reviews.
+
+You can also review a recipe here. Note - users can only review a recipe once. When trying to review a recipe again, the review will just be update. This is to prevent spam.
+
+### Add recipe
+From the recipe catalogue, users can add recipes by pressing "Add Your Recipe".
+
+When creating a recipe, you must add a title. You should add the cooking time, a description, and tags that makes it easier for other users to find the recipe. When writing new tags not seen before in the database, these will be added to the database.
+
+You should also add ingredients and the quantity and unit, the ingredients appear in, in the recipe e.g. "Flour - 200 - g".
+
+You must add instructions to the recipe.
+
+## Logout
+When you're done, simply log out ("Logout").
+
+
