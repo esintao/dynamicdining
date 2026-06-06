@@ -130,6 +130,7 @@ def main():
         fix_sequence(cur, 'household', 'h_id')
         fix_sequence(cur, 'tags', 't_id')
         fix_sequence(cur, 'ingredients', 'i_id')
+        fix_sequence(cur, 'recipe_ingredients', 'ri_id')
         fix_sequence(cur, 'recipes', 'r_id')
         fix_sequence(cur, 'stock', 's_id')
         
