@@ -1,42 +1,46 @@
 DynamicDining
 App project for DIS 2026. Made by Esin Tao (cxq772) and Konrad Frederik Hänninen Pedersen (bjv627).
 
-## Running with Docker
+# Installation guide
+## Running with docker
 
-### Prerequisites - Docker - Docker Compose
+1. Clone the repository: 
+```bash
+git clone https://github.com/esintao/DynamicDining.git
+```
 
-### Quick Start
+Get into the folder. 
+```bash
+cd DynamicDining
+```
 
-1. Clone the repository: bash<span data-diff-end="10"></span> <span data-diff-start="11"></span>git clone <repository-url><span data-diff-end="11"></span> <span data-diff-start="12"></span>cd DynamicDining<span data-diff-end="12"></span> <span data-diff-start="13"></span>
+2. Start the application: 
+```bash
+docker compose up --build
+```
+After running the application for the first time, you can just run the following:
+```bash
+docker compose up
+```
 
-2. Start the application: bash<span data-diff-end="16"></span> <span data-diff-start="17"></span>docker-compose up<span data-diff-end="17"></span> <span data-diff-start="18"></span>
-
-This will start: - Flask web server on http://localhost:5000 - PostgreSQL database on localhost:5432
+Afterwards go into web server on http://localhost:5000 - PostgreSQL database on localhost:5432
 
 The database schema will be automatically initialized from schemas.sql.
 
-### Common Commands
+### Resetting data base
+PostgreSQL data is persisted in a Docker volume. To reset the database: 
+```bash
+docker-compose down -v 
+```
 
-Start the application: bash<span data-diff-end="29"></span> <span data-diff-start="30"></span>docker-compose up<span data-diff-end="30"></span> <span data-diff-start="31"></span>
-
-Start in background: bash<span data-diff-end="34"></span> <span data-diff-start="35"></span>docker-compose up -d<span data-diff-end="35"></span> <span data-diff-start="36"></span>
-
-Stop the application: bash<span data-diff-end="39"></span> <span data-diff-start="40"></span>docker-compose down<span data-diff-end="40"></span> <span data-diff-start="41"></span>
-
-View logs: bash<span data-diff-end="44"></span> <span data-diff-start="45"></span>docker-compose logs -f web<span data-diff-end="45"></span> <span data-diff-start="46"></span>
-
-Rebuild the Docker image (after code changes): bash<span data-diff-end="49"></span> <span data-diff-start="50"></span>docker-compose build --no-cache<span data-diff-end="50"></span> <span data-diff-start="51"></span>
-
-### Environment Variables
-
-Database connection is configured in docker-compose.yml. Default values: - DB_HOST: postgres - DB_USER: postgres - DB_PASSWORD: 6452 - DB_NAME: recipe_app - DB_PORT: 5432
-
-### Database
-
-PostgreSQL data is persisted in a Docker volume. To reset the database: bash<span data-diff-end="65"></span> <span data-diff-start="66"></span>docker-compose down -v # -v removes volumes<span data-diff-end="66"></span> <span data-diff-start="67"></span>docker-compose up # reinitialize<span data-diff-end="67"></span> <span data-diff-start="68"></span>
+Then you can start the database again from
+```bash
+docker-compose up -v
+```
 
 ### Troubleshooting
-
-Port already in use: If port 5000 or 5432 is already in use, you can modify docker-compose.yml to use different ports.
+Port already in use: If port 5000 or 5432 is already in use, you can modify docker-compose.yml to use different ports. If you use MacOS, you will need to change the port in docker-compose.yml from 5000:5000 to something else (e.g. 5001:5000).
 
 Database connection errors: Wait for the database to be ready. The web service has a dependency check that waits for PostgreSQL to be healthy before starting.
+
+## Running without docker
