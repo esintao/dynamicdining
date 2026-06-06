@@ -20,9 +20,9 @@ def clear_all_tables(cursor):
     
     try:
         cursor.execute(sql_command)
-        print("✅ Database is now completely empty and sequences are reset to 1!\n")
+        print("Database is now completely empty and sequences are reset to 1!\n")
     except Exception as e:
-        print(f"❌ Error while clearing tables: {e}")
+        print(f"Error while clearing tables: {e}")
         raise e
 
 def import_csv_to_table(cursor, csv_filename, table_name):
@@ -34,18 +34,18 @@ def import_csv_to_table(cursor, csv_filename, table_name):
     csv_path = os.path.join(base_path, csv_filename)
     
     if not os.path.exists(csv_path):
-        print(f"⚠️  Skipping '{table_name}': File '{csv_filename}' not found.")
+        print(f"Skipping '{table_name}': File '{csv_filename}' not found.")
         return
 
-    print(f"⏳ Bulk-loading {csv_filename} into '{table_name}' table...")
+    print(f"Bulk-loading {csv_filename} into '{table_name}' table...")
     
     with open(csv_path, 'r', encoding='utf-8') as f:
         sql_command = f"COPY {table_name} FROM STDIN WITH CSV HEADER"
         try:
             cursor.copy_expert(sql_command, f)
-            print(f"✅ Successfully populated '{table_name}'!")
+            print(f"Successfully populated '{table_name}'!")
         except Exception as e:
-            print(f"❌ Error inserting into '{table_name}': {e}")
+            print(f"Error inserting into '{table_name}': {e}")
             raise e
 
 def fix_sequence(cursor, table_name, pk_column):
@@ -63,14 +63,14 @@ def fix_sequence(cursor, table_name, pk_column):
         cursor.execute(sql_command)
         print(f"  -> Reset sequence for '{table_name}.{pk_column}'")
     except Exception as e:
-        print(f"⚠️  Could not reset sequence for {table_name}: {e}")
+        print(f"Could not reset sequence for {table_name}: {e}")
 
 def create_database_indexes(cursor):
     """
     Applies search indexing across critical relational target tables.
     Table names are written clean without double quotes so PostgreSQL finds its lowercased identifiers.
     """
-    print("⚡ Creating computational search tree performance indexes...")
+    print("Creating computational search tree performance indexes...")
     
     indexes = [
         # 1. Faster recipe title search filter calculations (mapped to r_name)
@@ -91,16 +91,16 @@ def create_database_indexes(cursor):
         try:
             cursor.execute(query)
         except Exception as e:
-            print(f"❌ Failed to compile operational index: {e}")
+            print(f"Failed to compile operational index: {e}")
             raise e
-    print("✅ Performance indexes compiled and optimized across target datasets!")
+    print("Performance indexes compiled and optimized across target datasets!")
 
 def main():
     conn = get_db_connection()
     cur = conn.cursor()
     
     try:
-        print("🚀 Starting full database refresh and import...\n")
+        print("Starting full database refresh and import...\n")
         
         # --- PHASE 0: WIPE OUT EXISTING DATA ---
         clear_all_tables(cur)
@@ -139,10 +139,10 @@ def main():
         
         # Save all changes safely
         conn.commit()
-        print("\n🎉 Excellent! All tables wiped, fresh data loaded, sequences aligned, and search indexes built.")
+        print("\nExcellent! All tables wiped, fresh data loaded, sequences aligned, and search indexes built.")
         
     except Exception as error:
-        print(f"\n🚨 Critical error occurred. Rolling back all database modifications: {error}")
+        print(f"\nCritical error occurred. Rolling back all database modifications: {error}")
         conn.rollback()
         
     finally:
