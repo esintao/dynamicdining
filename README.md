@@ -84,7 +84,7 @@ Connect to PostgresSQL
 psql -U postgres
 ```
 
-Create the database in postgres terminal. Or do it in pgAdmin.
+Create the database in postgres terminal. If you have pgAdmin, you can also make the database there.
 ```bash
 CREATE DATABASE recipe_app;
 ```

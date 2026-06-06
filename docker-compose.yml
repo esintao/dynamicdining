@@ -30,7 +30,6 @@ services:
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=${DB_NAME}
-    command: sh -c "python import_all_csv_data.py && python app.py"
     depends_on:
       postgres:
         condition: service_healthy
