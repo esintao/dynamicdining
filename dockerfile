@@ -15,8 +15,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
+# Make the entrypoint script executable
+RUN chmod +x entrypoint.sh
+
 # Expose port 5000 for Flask
 EXPOSE 5000
 
-# Run the Flask application
-CMD ["python", "app.py"]
+# Use the script as our entrypoint
+CMD ["./entrypoint.sh"]
