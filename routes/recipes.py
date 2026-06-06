@@ -1,12 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, session, url_for, jsonify
 from db import get_db_connection
 
-
-recipes_bp = Blueprint('recipes', __name__)
-
-from flask import Blueprint, render_template, request, redirect, session, url_for, jsonify
-from db import get_db_connection
-
 recipes_bp = Blueprint('recipes', __name__)
 
 @recipes_bp.route('/recipes')
