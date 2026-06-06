@@ -22,4 +22,4 @@ RUN chmod +x entrypoint.sh
 EXPOSE 5000
 
 # Use the script as our entrypoint
-CMD ["./entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]
