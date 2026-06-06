@@ -21,6 +21,7 @@ docker compose up --build
 After running the application for the first time, you can just run the following:
 ```bash
 docker compose up
+```
 
 Afterwards go into web server on http://localhost:5000 - PostgreSQL database on localhost:5432
 
@@ -42,3 +43,4 @@ Port already in use: If port 5000 or 5432 is already in use, you can modify dock
 
 Database connection errors: Wait for the database to be ready. The web service has a dependency check that waits for PostgreSQL to be healthy before starting.
 
+## Running without docker
