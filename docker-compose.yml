@@ -5,7 +5,7 @@ services:
     image: postgres:15-alpine
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 6452
+      POSTGRES_PASSWORD: SuperSecretPassword
       POSTGRES_DB: recipe_app
     ports:
       - "5432:5432"
@@ -28,7 +28,7 @@ services:
       - DB_HOST=postgres
       - DB_PORT=5432
       - DB_USER=postgres
-      - DB_PASSWORD=6452
+      - DB_PASSWORD=SuperSecretPassword
       - DB_NAME=recipe_app
     command: sh -c "python import_all_csv_data.py && python app.py"
     depends_on:
