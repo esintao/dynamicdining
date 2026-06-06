@@ -16,11 +16,11 @@ cd DynamicDining
 
 2. Start the application: 
 ```bash
-docker compose up --build
+docker-compose up --build
 ```
 After running the application for the first time, you can just run the following:
 ```bash
-docker compose up
+docker-compose up
 ```
 
 Afterwards go into web server on http://localhost:5000 - PostgreSQL database on localhost:5432
