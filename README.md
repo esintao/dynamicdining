@@ -1,5 +1,12 @@
-DynamicDining
+# DynamicDining
 App project for DIS 2026. Made by Esin Tao (cxq772) and Konrad Frederik Hänninen Pedersen (bjv627).
+
+# Remarks
+The E/R diagram can be found in the folder "ER_diagram" as "DynamicDining_ERdiagram.png." The purpose of this app it to allow users, that are connected to one or more households, to keep track of their pantries, fridges and freezers, and find new recipes based on what they have on stock. Users can write recipes, and review them. Users are only allowed to write one review per recipe to prevent spam. Users are also allowed to be a part of multiple households to accomodate divorced children, dorm students that want to keep track of their parents house etc. A certain ingredient can be apart of multiple instances in ones stock, to accomodate that you can have the same ingredient at home with multiple expiration dates.
+
+The recipes come from food.com, from this link https://www.kaggle.com/datasets/shuyangli94/food-com-recipes-and-user-interactions?select=RAW_interactions.csv. We have scraped the ingredients and their quantities and units using Regex. We also use Regex for user passwords in our application. 
+
+Hope you enjoy :-)
 
 # Execution guide
 ## Running with docker
