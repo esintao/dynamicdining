@@ -94,7 +94,7 @@ CREATE DATABASE recipe_app;
 psql -U postgres -d recipe_app -f schemas.sql
 ```
 
-6. Change the file .env in the project
+6. Change/create the file .env in the project
 Change the DB_PASSWORD value to match your own local PostgreSQL system password:
 ```python
 DB_HOST=localhost
