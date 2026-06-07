@@ -17,7 +17,7 @@
         <a href="{{ url_for('household.home') }}">Home</a>
         <a href="{{ url_for('stock.stock_page') }}">Stock</a>
         <a href="{{ url_for('recipes.recipes_page') }}">Recipes</a>
-        
+
         {% endif %}
 
         <a href="{{ url_for('auth.logout') }}">Logout</a>
@@ -29,6 +29,25 @@
     <hr>
 
     <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert-container"
+            style="max-width: 440px; margin: 20px auto; padding: 12px; border-radius: 8px; text-align: center; font-family: sans-serif; font-weight: bold;">
+            {% for message in messages %}
+            {% if 'successfully' in message or 'successful' in message %}
+            <div
+                style="color: #1e4620; background-color: #def2d6; border: 1px solid #bcdbb3; padding: 8px; border-radius: 6px;">
+                {{ message }}</div>
+            {% else %}
+            <div
+                style="color: #661411; background-color: #fce8e6; border: 1px solid #fbc4c0; padding: 8px; border-radius: 6px;">
+                {{ message }}</div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
         {% block content %}{% endblock %}
     </div>
 

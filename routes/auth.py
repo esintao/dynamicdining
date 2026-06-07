@@ -46,13 +46,16 @@ def login():
 def register_page():
     return render_template('register.html')
 
-
 @auth_bp.route('/register_user', methods=['POST'])
 def register_user():
     username = request.form['username']
     email = request.form['email']
     password = request.form['password']
 
+    if not validate_password_strength(password):
+        flash('Password must be at least 8 characters long, contain an uppercase letter, a number, and a special character.')
+        return render_template('register.html', username=username, email=email)
+    
     conn = get_db_connection()
     cur = conn.cursor()
 
@@ -63,16 +66,22 @@ def register_user():
         ''', (username, email, password))
 
         conn.commit()
+        
+        flash('Account successfully created! Please log in below.')
+        
+        cur.close()
+        conn.close()
+        return redirect(url_for('auth.login_page'))
 
     except Exception as e:
         conn.rollback()
-        flash('User already exists')
+        flash('User or email already exists. Please pick another.')
         print(e)
-
-    cur.close()
-    conn.close()
-
-    return redirect(url_for('auth.login_page'))
+        
+        cur.close()
+        conn.close()
+        #Stop and send them back to registration page on error
+        return render_template('register.html', username=username, email=email)
 
 
 @auth_bp.route('/logout')

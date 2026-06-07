@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, session, url_for, flash
 from db import get_db_connection
-
+from routes.auth import validate_password_strength
 
 household_bp = Blueprint('household', __name__)
 
@@ -77,6 +77,11 @@ def join_household():
 def create_household():
     h_name = request.form['h_name']
     h_password = request.form['h_password']
+
+    # Validate password strength
+    if not validate_password_strength(h_password):
+        flash('Password does not meet the required criteria.', 'error')
+        return render_template('join_household.html', h_name=h_name)
 
     conn = get_db_connection()
     cur = conn.cursor()

@@ -16,7 +16,7 @@
             <form action="/join_household" method="POST" class="styled-auth-form">
                 <div class="form-group">
                     <label for="join_h_name">Household Name</label>
-                    <input type="text" id="join_h_name" name="h_name" placeholder="e.g., Smith Family Kitchen" required>
+                    <input type="text" id="join_h_name" name="h_name" value="{{ h_name or '' }}" placeholder="e.g., Smith Family Kitchen" required>
                 </div>
 
                 <div class="form-group">
@@ -36,7 +36,7 @@
             <form action="/create_household" method="POST" class="styled-auth-form">
                 <div class="form-group">
                     <label for="create_h_name">New Household Name</label>
-                    <input type="text" id="create_h_name" name="h_name" placeholder="e.g., Apartment 4B Pantry"
+                    <input type="text" id="create_h_name" name="h_name" value="{{ h_name or '' }}" placeholder="e.g., Apartment 4B Pantry"
                         required>
                 </div>
 
